@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+<script type="text/javascript">
+  function Person(name,age,addr,price){
+    this.name=name;
+    this.age=age;
+    this.addr=addr;
+    this.price=price;
+  }
+  var arr=[];
+  arr.push(new Person("张三",23,"江西",88));
+  arr.push(new Person("王五",13,"湖南",188));
+  arr.push(new Person("李密",33,"北京",288));
+  arr.push(new Person("杨开泰",43,"湖南",8));
+  arr.push(new Person("景甜",18,"湖北",808));
+  arr.push(new Person("张飞",103,"湖南",288));
+  arr.push(new Person("关羽",33,"北京",288));
+  arr.push(new Person("杨开泰",23,"湖北",8));
+  console.log(arr);
+  console.log("排序后。。。。。。。。。");
+  console.log(arr.sort(function(a,b){return a.age-b.age;}));
+  console.log("筛选后。。。。。。。。。");
+  console.log(arr.filter(function(a){return a.addr=='湖南';}));
+  console.log("筛选后排序后。。。。。。。。。");
+  console.log(arr.filter(function(a){return a.addr=='湖南';}).sort(function(a,b){return a.age-b.age;}));
+  console.log("关键词筛选后。。。。。。。。。");
+  console.log(arr.filter(function(a){return a.addr.indexOf('湖')>=0;}).sort(function(a,b){return a.price-b.price;}).slice(1,3));
+</script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+	<title>爱上了你，我才领略思念的滋味</title>
+	<style type="text/css">
+		#text{max-width: 900px;margin:20px auto;font-size:25px;}
+	</style>
+    <script src="http://blog.faultylabs.com/files/md5.js"></script>   
+<script src="http://webapi.openspeech.cn/socket.io/socket.io.js"></script>  
+<script src='http://webapi.openspeech.cn/fingerprint.js'></script>  
+<script src="http://webapi.openspeech.cn/tts.min.js"></script>  
+</head>
+<body>
+<script src="http://blog.faultylabs.com/files/md5.js"></script>   
+<script src="http://webapi.openspeech.cn/socket.io/socket.io.js"></script>  
+<script src='http://webapi.openspeech.cn/fingerprint.js'></script>  
+<script src="http://webapi.openspeech.cn/tts.min.js"></script>  
+<div id="text"></div>
+<div id="voice">  
+                <input  type="button" onclick="playVoice('今天天气不错，一起去海边烧烤怎么样！');" />  
+  
+       </div>  
+<script type="text/javascript">  
+    //初始化Session对象  
+    var session = new IFlyTtsSession({  
+                  'url' : 'http://webapi.openspeech.cn/',                             
+                  'interval' : '30000',   
+                  'disconnect_hint' : 'disconnect',  
+                  'sub' : 'tts'  
+            });  
+    var audio = null;  
+    //输入文本，输出语音播放链接 @content 待合成文本(不超过4096字节)  
+    function play(content) {  
+        resetVoice();  
+        var appid = "你的appid";//应用APPID，在open.voicecloud.cn上申请即可获得  
+        var timestamp = new Date().toLocaleTimeString();//当前时间戳，例new Date().toLocaleTimeString()  
+            var expires = 60000;//签名失效时间，单位:ms，例60000     
+        var vcn="vixr";//发音人，具体可参考官网的api  
+        //secretkey在open.voicecloud.cn上申请即可获得  
+        var signature = faultylabs.MD5(appid + '&' + timestamp + '&' + expires + '&' + "你的secretkey");        
+        var params = { "params" : "aue = speex-wb;7, ent = intp65, spd = 50, vol = 50, tte = utf8, caller.appid=" + appid + ",timestamp=" + timestamp + ",expires=60000,vcn="+vcn, "signature" : signature, "gat" : "mp3"};   
+        session.start(params, content, function (err, obj)  
+    {  
+            if(err) {  
+                alert("语音合成发生错误，错误代码 ：" + err);  
+            } else {  
+            if(audio != null)  
+                {  
+                    audio.pause();  
+                }  
+                audio = new Audio();  
+                audio.src = '';  
+        audio.play();  
+                audio.src = "http://webapi.openspeech.cn/" + obj.audio_url;  
+                audio.play();  
+            }  
+        },function(message){  
+             //语音合成结束启动下一次合成  
+         if(message=="onEnd"){  
+             console.log("本次会话结束!");  
+                 audio=new Audio();  
+         }  
+          
+        });  
+    };  
+    function playVoice(str){  
+         play(str);  
+    }  
+     //停止播放音频  
+     function stopVoice(){  
+          if(audio!=null){  
+         audio.state=2;  
+         audio.pause();  
+          }  
+     }  
+     //重置音频缓存队列和播放对象，若音频正在播放，则暂停当前播放对象，创建并使用新的播放对象                                
+     function resetVoice(){  
+          if(audio!=null){  
+         audio.pause();  
+          }  
+          audio=new Audio();  
+     }  
+</script>   
+<script type="text/javascript"> 
+
+var zhText = "爱上了你，我才领略思念的滋味、分离的愁苦和妒忌的煎熬，还有那无休止的占有欲。为什么你的一举一动都让我心潮起伏 为什么我总害怕时光飞逝而无法与你终生厮守？爱神告诉我，爱是缘分，爱是感动，爱是习惯，爱是宽容，爱是牺牲，爱是体谅，爱是一辈子的承诺！ 宝宝，七夕马上就到了，一直没有对你说，其实，我很喜欢你，你的单纯，你的可爱，深深的把我吸引了，相信我，让我保护你，从今以后，让我陪在你的身边，我不会让你哭，我会让你每天开心的，相信我，我会用时间来证明我是真的爱你，虽然很俗，但是，我还是要说：我会永远爱你。冰雪冷却不了我对你的热爱，台风吹散不走我对你的思念，喧哗淹没不了我的对你的心声，黑暗掩盖不了我对你的深情;不知道你今天好不好，我的情况可不妙。只觉得前前后后，左左右右，脑子里里外外，嗡嗡的都是你，你想我吗？唱着伤心的歌曲，看着心爱的女孩。心是为你伤的，歌是为你唱的，我只是想要你幸福快乐，对不起！孤单不是与生俱来，而是由你爱上1个人的那一刻开始。好想牵着你的手，幸福道路一起走；好想搂着你的腰，从此快乐又逍遥；好想亲亲你的脸，我们相伴到永远！ 假如我是清风你是玫瑰，我要悄悄抚摸你透散着芬芳的发丝；假如我是一只蜘蛛，而你是美丽的蝴蝶，我要用心编织的情网，紧紧抱住你飞翔的翅膀；假如我是麋鹿你是清泉，我要用火热的唇狂饮你的甜吻。看见你的笑是世上最幸福的，看见你的泪是世上最回味的，看见你的怒是世上最难忘的，但看不到你的信息是世上最可怜的！蓝蓝的天空白云飘，白云下面我傻跑，背着LOVE行囊把你追，直到天荒地老，灵魂出窍。看见你精神百倍，梦见你忘却疲惫，想你想得无法入睡，别说你还无所谓，收下我的红玫瑰，你不爱我是你不对！玫瑰开在九月里，我的心中只有你，好想和你在一起，没有什么送给你，只有一句我爱你！你的身影越来越频繁地出现在我的眼前，渐渐地，意如呼吸一般，一秒钟也不中断，弄得我吃不好饭，睡不好觉。你的眼睛眨一眨，我就死去，你的眼睛再眨一眨，我又活了过来，你的眼睛眨来眨去，于是我就死去活来。";
+var index=0;
+var str = '爱上了你，我才领略思念的滋味、分离的愁苦和妒忌的煎熬，还有那无休止的占有欲。为什么你的一举一动都让我心潮起伏 为什么我总害怕时光飞逝而无法与你终生厮守？爱神告诉我，爱是缘分，爱是感动，爱是习惯，爱是宽容，爱是牺牲，爱是体谅，爱是一辈子的承诺！ 宝宝，七夕马上就到了，一直没有对你说，其实，我很喜欢你，你的单纯，你的可爱，深深的把我吸引了，相信我，让我保护你，从今以后，让我陪在你的身边，我不会让你哭，我会让你每天开心的，相信我，我会用时间来证明我是真的爱你，虽然很俗，但是，我还是要说：我会永远爱你。冰雪冷却不了我对你的热爱，台风吹散不走我对你的思念，喧哗淹没不了我的对你的心声，黑暗掩盖不了我对你的深情;不知道你今天好不好，我的情况可不妙。只觉得前前后后，左左右右，脑子里里外外，嗡嗡的都是你，你想我吗？唱着伤心的歌曲，看着心爱的女孩。心是为你伤的，歌是为你唱的，我只是想要你幸福快乐，对不起！孤单不是与生俱来，而是由你爱上1个人的那一刻开始。好想牵着你的手，幸福道路一起走；好想搂着你的腰，从此快乐又逍遥；好想亲亲你的脸，我们相伴到永远！ 假如我是清风你是玫瑰，我要悄悄抚摸你透散着芬芳的发丝；假如我是一只蜘蛛，而你是美丽的蝴蝶，我要用心编织的情网，紧紧抱住你飞翔的翅膀；假如我是麋鹿你是清泉，我要用火热的唇狂饮你的甜吻。看见你的笑是世上最幸福的，看见你的泪是世上最回味的，看见你的怒是世上最难忘的，但看不到你的信息是世上最可怜的！蓝蓝的天空白云飘，白云下面我傻跑，背着LOVE行囊把你追，直到天荒地老，灵魂出窍。看见你精神百倍，梦见你忘却疲惫，想你想得无法入睡，别说你还无所谓，收下我的红玫瑰，你不爱我是你不对！玫瑰开在九月里，我的心中只有你，好想和你在一起，没有什么送给你，只有一句我爱你！你的身影越来越频繁地出现在我的眼前，渐渐地，意如呼吸一般，一秒钟也不中断，弄得我吃不好饭，睡不好觉。你的眼睛眨一眨，我就死去，你的眼睛再眨一眨，我又活了过来，你的眼睛眨来眨去，于是我就死去活来。'
+function type(){
+	document.getElementById('text').innerText=str.substring(0,index++);
+	console.log(index);
+	document.getElementById('text').style.color = getRandomColor ();
+	if(index==str.length){
+		document.getElementById('text').innerText=str.substring(0)
+		clearInterval(timer);
+	}
+}
+
+var timer = setInterval(type,300);
+zhText = encodeURI(zhText);
+//console.log(decodeURI(zhText));
+document.write("<audio autoplay=\"autoplay\">");
+document.write("<source src=\"http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=4&text="+ zhText +"\" type=\"audio/mpeg\">");
+document.write("<embed height=\"0\" width=\"0\" src=\"http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=4&text="+ zhText +"\">");
+document.write("</audio>");
+function getRandomColor () {
+  let rgb = []
+  for (let i = 0 ; i < 3; ++i){
+    let color = Math.floor(Math.random() * 256).toString(16)
+    color = color.length == 1 ? '0' + color : color
+    rgb.push(color)
+  }
+  return '#' + rgb.join('')
+}
+</script>
+</body>
+</html>

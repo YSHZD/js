@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+<script>
+function curry(fn){
+	function _c(restNum,argslist){
+		return restNum ===0 ?fn.apply(null,argslist) :
+		function(x){
+			return _c(restNum - 1,argslist.concat(x));
+		};
+	}
+	return _c(fn.length,[]);
+}
+var plus = curry(
+		function(a,b,c){
+			return a*b+c;
+		}
+	);
+console.time('hei');
+console.log(plus(2)(4)(4));
+console.timeEnd('hei')
+</script>
+</html>

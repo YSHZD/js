@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<input type="text" id="txt">
+		<p id="show-txt"></p>
+	</div>
+	<ul id="ul">
+
+	    <li>1</li>
+
+	    <li>2</li>
+
+	    <li>3</li>
+
+	    <li>4</li>
+
+	</ul>
+</body>
+<script>
+var ulNode = document.getElementById('ul');
+ulNode.addEventListener('click',function(e){console.log(e)
+	if(e.target&&e.target.nodeName.toUpperCase()=='LI'){
+		console.log(e.target.innerHTML);
+		var li = document.createElement('li');
+		var newContent = document.createTextNode(new Date().getTime())
+		li.appendChild(newContent);
+		ulNode.append(li);
+	}
+},false)
+
+
+var obj = {};
+	Object.defineProperty(obj,'txt',{
+		get:function(){
+			return obj;
+		},
+		set:function(newValue){console.log('set');
+			document.getElementById('txt').value = newValue;
+			document.getElementById('show-txt').innerHTML = newValue;
+		}
+	});
+	document.addEventListener('keyup',function(e){
+		obj.txt = e.target.value;
+	})
+</script>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+/**
+ * [CreatePerson description]
+ * @param {[type]} name [description]
+ * @param {[type]} sex  [description]
+ * 属性 方法分开继承
+ */
+/*function CreatePerson(name,sex){
+	this.name = name;
+	this.sex = sex;
+}
+CreatePerson.prototype.showName = function(){
+	alert(this.name);
+}
+
+var p1 = new CreatePerson('小米','男');
+p1.showName();
+
+function CreateStar(name,sex,job){
+	CreatePerson.call(this,name,sex);//属性
+	this.job = job;
+}
+CreateStar.prototype =CreatePerson.prototype;//方法 
+CreateStar.prototype.showJob = function(){	
+}
+
+var p2 = new CreateStar('小欧','男','老师');
+p2.showName();*/
+/**
+ * for in 继承
+ * @param {[type]} name [description]
+ * @param {[type]} sex  [description]
+ */
+function CreatePerson(name,sex){
+	this.name = name;
+	this.sex = sex;
+}
+CreatePerson.prototype.showName = function(){
+	alert(this.name);
+}
+CreateStar.prototype.showJob = function(){	
+}
+function CreateStar(name,sex,job){
+	CreatePerson.call(this,name,sex);
+}
+
+extend(CreateStar.prototype,CreatePerson.prototype);
+
+var p2 = new CreateStar('小欧','男','老师');
+p2.showName();
+var p3 = new CreateStar('小欧1','男','老师');
+p3.showName();
+
+//拷贝继承:  通用型的  有new或无new的时候都可以
+function extend(obj1,obj2){
+	for(var attr in obj2){
+		obj1[attr] = obj2[attr];
+	}
+}
+</script>
+</html>

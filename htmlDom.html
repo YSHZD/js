@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>dom</title>
+</head>
+<body>
+<script type="text/javascript">
+/*	方法	描述
+getElementById()	返回带有指定 ID 的元素。
+getElementsByTagName()	返回包含带有指定标签名称的所有元素的节点列表（集合/节点数组）。
+getElementsByClassName()	返回包含带有指定类名的所有元素的节点列表。
+appendChild()	把新的子节点添加到指定节点。
+removeChild()	删除子节点。
+replaceChild()	替换子节点。
+insertBefore()	在指定的子节点前面插入新的子节点。
+createAttribute()	创建属性节点。
+createElement()	创建元素节点。
+createTextNode()	创建文本节点。
+getAttribute()	返回指定的属性值。
+setAttribute()	把指定属性设置或修改为指定的值。
+
+一些常用的 HTML DOM 方法：
+getElementById(id) - 获取带有指定 id 的节点（元素）
+appendChild(node) - 插入新的子节点（元素）
+removeChild(node) - 删除子节点（元素）
+一些常用的 HTML DOM 属性：
+innerHTML - 节点（元素）的文本值
+parentNode - 节点（元素）的父节点
+childNodes - 节点（元素）的子节点
+attributes - 节点（元素）的属性节点	
+
+
+nodeName 属性
+nodeName 属性规定节点的名称。
+nodeName 是只读的
+元素节点的 nodeName 与标签名相同
+属性节点的 nodeName 与属性名相同
+文本节点的 nodeName 始终是 #text
+文档节点的 nodeName 始终是 #document
+注释：nodeName 始终包含 HTML 元素的大写字母标签名。
+
+
+nodeValue 属性
+nodeValue 属性规定节点的值。
+元素节点的 nodeValue 是 undefined 或 null
+文本节点的 nodeValue 是文本本身
+属性节点的 nodeValue 是属性值
+
+
+
+nodeType 属性
+nodeType 属性返回节点的类型。nodeType 是只读的。
+比较重要的节点类型有：
+元素类型	NodeType
+元素	1
+属性	2
+文本	3
+注释	8
+文档	9ty
+
+
+
+访问 HTML 元素（节点）
+访问 HTML 元素等同于访问节点
+您能够以不同的方式来访问 HTML 元素：
+通过使用 getElementById() 方法返回带有指定 ID 的元素：
+通过使用 getElementsByTagName() 方法返回带有指定标签名的所有元素。
+通过使用 getElementsByClassName() 方法Internet Explorer 5,6,7,8 中无效。
+
+
+修改 HTML DOM 意味着许多不同的方面：
+改变 HTML 内容
+改变 CSS 样式
+改变 HTML 属性
+创建新的 HTML 元素
+删除已有的 HTML 元素
+改变事件（处理程序）
+
+
+
+改变元素内容的最简答的方法是使用 innerHTML 属性。
+
+改变 HTML 样式
+通过 HTML DOM，您能够访问 HTML 元素的样式对象。
+document.getElementById("p2").style.color="blue";
+
+创建新的 HTML 元素
+如需向 HTML DOM 添加新元素，您首先必须创建该元素（元素节点），然后把它追加到已有的元素上。
+这段代码创建了一个新的 <p> 元素：
+var para=document.createElement("p");
+这段代码创建文本节点：
+var node=document.createTextNode("This is new.");
+<p> 元素追加文本节点：
+para.appendChild(node);
+var element=document.getElementById("d1");
+这段代码向这个已存在的元素追加新元素：
+element.appendChild(para);
+
+
+appendChild() 方法，将新元素作为父元素的最后一个子元素进行添加
+
+newchild child
+
+child.parentNode.insertBefore(newchild,child)
+
+child.parentNode.removeChild(child)
+
+child.parentNode.replaceChild(newchild,child);
+
+onclick=JavaScript
+
+onload 和 onunload 事件
+
+onchange 事件
+
+onmouseover 和 onmouseout 事件
+
+onmousedown、onmouseup 以及 onclick 事件
+
+length 属性定义节点列表中节点的数量
+
+三个节点属性：parentNode、firstChild 以及 lastChild
+
+<p id="intro">Hello World!</p>
+
+x=document.getElementById("intro");
+x.firstChild.nodeValue=Hello World!
+
+DOM 根节点
+这里有两个特殊的属性，可以访问全部文档：
+document.documentElement - 全部文档
+document.body - 文档的主体
+
+childNodes 和 nodeValue
+除了 innerHTML 属性，您也可以使用 childNodes 和 nodeValue 属性来获取元素的内容。
+
+<p id="intro">Hello World!</p>
+txt=document.getElementById("intro").childNodes[0].nodeValue;
+
+Node.previousSibling返回前一个节点，如果没有则返回null
+Node.nextSibling 返回后一个节点
+
+Style本身的属性和方法
+
+node.style.cssText     //获取node行内样式字符串
+node.style.length      //获取行内样式个数
+node.style.item(0)     //获取指定位置的样式
+
+修改DOM特性的方法
+Node.getAttribute('id')    // 获取
+Node.setAttribute('id')    // 设置
+Node.removeAttribute()     // 移除
+Node.attributes        // 获取DOM全部特性
+
+
+创建节点
+createElement()
+var node = document.createElement(“div”);
+
+创建文本节点
+createTextNode()
+var value = document.createTextNode(“text”);
+
+插入节点到最后
+appendChild()
+node.appendChild(value);
+
+插入节点到目标节点的前面
+insertBefore()
+
+复制节点
+cloneNode(boolean)
+node.cloneNode(true);
+node.cloneNode(false);
+复制上面的div节点，参数true，复制整个节点和里面的内容；false，只复制节点不要里面的内容，复制后的新节点
+<p id="mynode">test</p>        p=document.getElementById("mynode")
+pclone =p.cloneNode(true);
+p.parentNode.appendChild(pclone);
+
+
+
+
+
+
+
+
+
+
+
+删除节点
+removeChild()
+node.removeChild()
+
+替换节点
+repalceChild(newNode, oldNode)
+node.repalceChild(,);
+
+设置节点属性
+setAttribute()
+node.setAttribute("title","abc");
+
+获取节点属性
+getAttribute()
+node.getAttribute("title");
+
+判断元素是否有子节点
+hasChildNodes
+node.hasChildNodes;
+返回boolean类型，因此将新节点插入到最前面的技巧：
+var node = document.createElement(“div”);
+var newNode = document.createElement(“p”);
+if (node.hasChildNodes) node.insertBefore(newNode, node.firstChild);
+else node.appendChild(node)
+
+nodeName - 节点的名字；
+nodeType - 返回一个整数，代表这个节点的类型，1-元素节点，2-属性节点，3-文本节点；
+nodeValue - 返回一个字符串，这个节点的值；
+childNodes - 返回一个数组，数组由元素节点的子节点构成；
+firstChild - 返回第一个子节点；
+lastChild - 返回最后一个子节点；
+nextSibling - 返回目标节点的下一个兄弟节点，如果目标节点后面没有同属于一个父节点的节点，返回null；
+previousSibling - 返回目标节点的前一个兄弟节点，如果目标节点前面没有同属于一个父节点的节点，返回null；
+parentNode - 返回的节点永远是一个元素节点，因为只有元素节点才有可能有子节点，document节点将返回null；
+
+
+*/
+</script>
+	
+</body>
+</html>

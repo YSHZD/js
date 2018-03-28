@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script type="text/javascript">
+var arr = ['yang','si','hai'];
+var good = function(fn){
+	for(var key in arr){
+		fn(key,arr[key])
+	}
+}
+good(function(key,value){
+	document.write(key+"|||"+value+"<br>");
+});
+</script>
+</html>

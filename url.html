@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+	var params={
+		'a':1,
+		'b':2,
+		'c':3
+	};
+	function parseUrl(params){
+		return Object.keys(params).map(function(key){return [key,params[key]].join('=')}).join('&');
+	}
+	console.log(parseUrl(params));
+	function strlen(str){
+		var len = 0;
+		for(var i=0;i<str.length;i++){
+			var c = str.charCodeAt(i);
+			if((c >= 0x0001 && c <= 0x007e) || (c >= 0xff60 && c <= 0xff9f)){
+				len++;
+			}else{
+				len+=2;
+			}
+		}
+		return len;
+	}
+	console.log(strlen('abcd'));
+	console.log(strlen('中国'));
+	console.log(strlen('a中国d'));
+	function formateTime(date){
+		var year = date.getFullYear();
+		var month = date.getMonth()+1;
+		var day = date.getDate();
+
+		var hour = date.getHours();
+		var minute = date.getMinutes();
+		var second = date.getSeconds();
+		return [year,month,day].map(formateNumber).join('.')+'  '+[hour,minute,second].map(formateNumber).join(':');
+	}
+	function formateNumber(o){
+		var o = o.toString();
+		return o[1]? o :'0' + o;
+	}
+	console.log(formateTime(new Date()));
+	function arrSplite(arr,num){
+		var matrix=[],i,k;
+		for(i=0,k=-1;i<arr.length;i++){
+			if(i%num===0){
+				k+=1;
+				matrix[k]=[];
+			}
+			matrix[k].push(arr[i]);
+		}
+		return matrix;
+	}
+console.log(arrSplite([1,2,3,4,5,6,7],3));
+			function formatDate(time){
+			var timer = null;
+			var myDate = new Date(time);
+			var year = myDate.getFullYear();
+			var month = myDate.getMonth()+1;
+			var day = myDate.getDate();
+			var hour = myDate.getHours();
+			var minute = myDate.getMinutes();
+			var second = myDate.getSeconds();
+			var hms = '';
+			hms+=forma(hour)+":";
+			hms+=forma(minute)+":";
+			hms+=forma(second);
+			var rtime = '';
+			rtime += year+"-";
+			rtime += month+"-";
+			rtime += day+"  ";
+			var d = parseInt( (new Date().getTime())/(1000*60*60*24)-myDate.getTime()/(1000*60*60*24) );
+			/*if(d==0){
+				timer = '今天'+hms;
+			}else if(d==1){
+				timer = '昨天'+hms;
+			}else if(d==2){
+				timer = '前天'+hms;
+			}else{
+				timer = rtime+hms;
+			}*/
+			switch(d){
+				case 0: timer = '今天  '+hms; break;
+				case 1: timer = '昨天  '+hms; break;
+				case 2: timer = '前天  '+hms; break;
+				default: timer = rtime+hms;;
+			}
+			document.write(timer);
+			
+		}
+		function forma(time){
+			return time<10?'0'+time:time;
+		}
+		formatDate("2017-11-21 11:20:30");
+	</script>
+</body>
+</html>

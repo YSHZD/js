@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>实现下划线动画效果</title>
+	<style>
+	.left-to-right{position: relative;}
+	 /*使用伪类给a下面添加下划线*/
+        /*css3为了区别伪类选择器把::改为:,使用:也会自动转为::*/
+      .left-to-right::after{
+      	content:"";
+      	display: block;
+      	width:0;
+      	height:3px;
+      	position: absolute;
+      	left:0;
+      	bottom: -10px;
+      	background: red;
+      	transition:all 0.3s ease-in-out;
+      }
+      .left-to-right:hover::after{
+      	width:100%;
+      }
+      .right-to-left{position: relative;}
+	 /*使用伪类给a下面添加下划线*/
+        /*css3为了区别伪类选择器把::改为:,使用:也会自动转为::*/
+      .right-to-left::after{
+      	content:"";
+      	display: block;
+      	width:0;
+      	height:3px;
+      	position: absolute;
+      	right:0;
+      	bottom: -10px;
+      	background: red;
+      	transition:all 0.3s ease-in-out;
+      }
+      .right-to-left:hover::after{
+      	width:100%;
+      }
+      /* .center-to-head{position: relative;}
+      .center-to-head::after{
+      	content:"";
+      	display: block;
+      	width:0;
+      	height:3px;
+      	position: absolute;
+      	right:50%;
+      	bottom: -10px;
+      	background: red;
+      	transition:all 0.3s ease-in-out;
+      }
+      .center-to-head:hover::after{
+      	right:0%;
+      	width:100%;
+      } */
+       .center-to-head{position: relative;}
+      .center-to-head::after{
+      	content:"";
+      	display: block;
+      	width:100%;
+      	height:3px;
+      	position: absolute;
+      	bottom: -10px;
+      	background: red;
+      	transition:all 0.3s ease-in-out;
+      	/*通过transform的缩放scale来让初始时x轴为0*/
+      	transform:scale3d(0,1,1);
+      	/*将坐标原点移到元素的中间，以原点为中心进行缩放*/
+      	transform-origin: 50% 0;
+
+      }
+      .center-to-head:hover::after{
+      	transform: scale3d(1,1,1);
+      } 
+      li{margin:20px auto;}
+	</style>
+</head>
+<body>
+	<ul>
+		<li class="left-to-right">鼠标经过从左向右延伸的下划线</li>
+		<li class="right-to-left">鼠标经过从右向左延伸的下划线</li>
+		<li class="center-to-head">鼠标经过从中间向两端延伸的下划线</li>
+	</ul>
+</body>
+<script>
+var filespec='ysh.txt';
+function ShowFileAccessInfo(filespec)
+{
+   var fso, f, s;
+   fso = new ActiveXObject("Scripting.FileSystemObject");
+   f = fso.GetFile(filespec);
+   s = f.Path.toUpperCase() + "<br&gt;";
+   s += "Created: " + f.DateCreated + "<br&gt;";
+   s += "Last Accessed: " + f.DateLastAccessed + "<br&gt;";
+   s += "Last Modified: " + f.DateLastModified
+   return(s);
+}
+console.log(ShowFileAccessInfo(filespec));
+</script>
+</html>

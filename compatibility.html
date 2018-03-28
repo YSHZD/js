@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>兼容性</title>
+	<style type="text/css">
+		.box1{width:300px;background: pink;font-weight: 600;}
+		input+span{color:red;}
+		[data-ysh]{background:red;}
+		#drop{
+           width: 300px;
+           height: 200px;
+           background-color: #ff0000;
+           padding: 5px;
+           border: 2px solid #000000;
+       }
+       #item{
+           width: 100px;
+           height: 100px;
+           background-color: #ffff00;
+           padding: 5px;
+           margin: 20px;
+           border: 1px dashed black;
+       }
+       *[draggable = true]{
+           -moz-user-select: none;
+           -webkit-user-select: none;
+           cursor: move;
+       }
+	</style>
+</head>
+<body>
+	<div class="box">
+		<div class="box1" id='box1' data-ysh = "ysh">1</div>
+		<div class="box1">2</div>
+		<div class="box1">3</div>
+		<div class="box1">4</div>
+	</div>
+<p>js在操作DOM中存在许多跨浏览器方面的坑</p>
+<p>DOM的工作模式是：先加载文档的静态内容、再以动态方式对它们进行刷新、动态刷新不影响文档的静态内容</p>
+<p>IE中所以得DOM对象都是以COM对象的形式实现，这意味着IE中的DOM可能和其他浏览器有一定得差异</p>
+<p>firstChild 相当于 childNodes[0]；lastChild 相当于childNodes[box.childNodes.length - 1]</p>
+<p>nodeType返回结点的类型
+
+--元素结点返回1
+--属性结点返回2
+--文本结点返回3</p>
+<p>innerHTML 和 nodeValue
+
+对于文本节点，nodeValue 属性包含文本。
+ 
+对于属性节点，nodeValue 属性包含属性值。
+ 
+nodeValue 属性对于文档节点和元素节点是不可用的</p>
+<p>document.getElementsByTagName('li');//获取所有 li 元素，返回数组
+document.getElementsByTagName('li')[0];//获取第一个 li 元素，HTMLLIElement
+document.getElementsByTagName('li').item(0);//获取第一个 li 元素，HTMLLIElement
+document.getElementsByTagName('li').length;//获取所有 li 元素的数目</p>
+<p>节点的绝对引用：
+
+返回文档的根节点：document.documentElement
+返回当前文档中被击活的标签节点：document.activeElement
+返回鼠标移出的源节点：event.fromElement
+返回鼠标移入的源节点：event.toElement
+返回激活事件的源节点：event.srcElement</p>
+<h3>节点的相对引用：(设当前对节点为node)
+
+返回父节点：node.parentNode || node.parentElement（IE）
+返回子节点集合（包含文本节点及标签节点）：node.childNodes
+返回子标签节点集合：node.children
+返回子文本节点集合：node.textNodes
+返回第一个子节点：node.firstChild
+返回最后一个子节点：node.lastChild
+返回同属下一个节点：node.nextSibling
+返回同属上一个节点：node.previousSibling</h3>
+<p>创建新节点
+
+createDocumentFragment()－－创建文档碎片节点
+createElement(tagname)－－创建标签名为tagname的元素
+createTextNode(text)－－创建包含文本text的文本节点</p>
+<h1 style="color:red">获取鼠标点击事件的位置</h1>
+<p>Firefox，Chrome、Safari和IE9都是通过非标准事件的pageX和pageY属性来获取web页面的鼠标位置的。pageX/Y获取到的是触发点相对文档区域左上角距离，以页面为参考点，不随滑动条移动而变化</p>
+<p>在IE 中，event 对象有 x, y 属性（事件发生的位置的 x 坐标和 y 坐标）火狐中没有。在火狐中，与event.x 等效的是event.pageX。event.clientX 与 event.pageX 有微妙的差别（当整个页面有滚动条的时候），不过大多数时候是等效的。</p>
+<p>offsetX:IE特有，chrome也支持。鼠标相比较于触发事件的元素的位置,以元素盒子模型的内容区域的左上角为参考点,如果有boder,可能出现负值scrollTop为滚动条向下移动的距离，所有浏览器都支持document.documentElement</p>
+<p>（+为支持，-为不支持）：
+
+offsetX/offsetY：W3C- IE+ Firefox- Opera+ Safari+ chrome+
+ 
+x/y：W3C- IE+ Firefox- Opera+ Safari+ chrome+
+ 
+layerX/layerY：W3C- IE- Firefox+ Opera- Safari+ chrome+
+ 
+pageX/pageY：W3C- IE- Firefox+ Opera+ Safari+ chrome+
+ 
+clientX/clientY：W3C+ IE+ Firefox+ Opera+ Safari+ chrome+
+ 
+screenX/screenY：W3C+ IE+ Firefox+ Opera+ Safari+ chrome+</p>
+<p>你会发现offsetX在Firefox下是undefined，在chrome和IE则会正常显示</p>
+<h1 style="color:red">offsetLeft和style.left区别</h1>
+<p>1.style.left返回的是字符串，比如10px。而offsetLeft返回的是数值，比如数值10
+2.style.left是可读写的，offsetLeft是只读的
+3.style.left的值需要事先定义(在样式表中定义无效，只能取到在html中定义的值)，否则取到的值是空的</p>
+<h1 style="color:red">getComputedStyle与currentStyle</h1>
+<p>getComputedStyle()接受两个参数：要取得计算样式的元素和一个伪元素，如果不需要伪元素，则可以是null。然而，在IE中，并不支持getComputedStyle，IE提供了currentStyle属性。
+
+getComputedStyle(obj , false ) 是支持 w3c (FF12、chrome 14、safari)：在FF新版本中只需要第一个参数，即操作对象，第二个参数写“false”也是大家通用的写法，目的是为了兼容老版本的火狐浏览器。
+缺点:在标准浏览器中正常，但在IE6/7/8中不支持
+getComputedStyle(oDiv).width; //适用于标准浏览器       IE6、7、8不识别
+oDiv.style.width;写在样式表里无法读取，只能得到写在行内
+currentStyle适用于IE浏览器，标准浏览器不识别</p>
+<h1 style="color:red">取消表单提交</h1>
+<form name="picker" action="http://www.baidu.com">
+	<input type="text" name="use" ><span></span><br>
+	<input type="password" name="pwd"><span></span><br>
+	<input type="submit" value="提交">
+</form>
+<h1 style="color:red">确定浏览器窗口的尺寸</h1>
+<p>对于主流浏览器来说，比如IE9、Firefox，Chrome和Safari，支持名为innerWidth 和 innerHeight的窗口对象属性，它返回窗口的视口区域，减去任何滚动条的大小。IE不支持innerWidth 和 innerHeight</p>
+<p>实用的 JavaScript 方案（涵盖所有浏览器）：
+
+var w=window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+ 
+var h=window.innerHeight || document.documentElement.clientHeight|| document.body.clientHeight;
+
+对于 IE 6、7、8的方案如下：
+
+document.documentElement.clientHeight
+document.documentElement.clientWidth
+
+或者
+
+document.body.clientHeight
+document.body.clientWidth
+
+Document对象的body属性对应HTML文档的<body>标签。Document对象的documentElement属性则表示 HTML文档的根节点</p>
+
+<h1 style="color:red">attributes 属性</h1>
+<p>attributes 属性返回该节点的属性节点集合。
+
+document.getElementById('box').attributes//NamedNodeMap
+document.getElementById('box').attributes.length;//返回属性节点个数
+document.getElementById('box').attributes[0]; //Attr，返回最后一个属性节点
+document.getElementById('box').attributes[0].nodeType; //2，节点类型
+document.getElementById('box').attributes[0].nodeValue; //属性值
+document.getElementById('box').attributes['id']; //Attr，返回属性为 id 的节点
+document.getElementById('box').attributes.getNamedItem('id'); //Attr
+
+setAttribute 和 getAttribute
+
+在IE中是不认识class属性的，需改为className属性，同样，在Firefox中，也是不认识className属性的，Firefox只认识class属性，所以通常做法如下：
+
+element.setAttribute(class, value);  //for firefox
+element.setAttribute(className, value);  //for IE
+
+IE：可以使用获取常规属性的方法来获取自定义属性,也可以使用getAttribute()获取自定义属性
+Firefox：只能使用getAttribute()获取自定义属性.
+
+解决方法：统一通过getAttribute()获取自定义属性
+
+document.getElementById('box').getAttribute('id');//获取元素的 id 值
+document.getElementById('box').id;//获取元素的 id 值
+document.getElementById('box').getAttribute('mydiv');//获取元素的自定义属性值
+document.getElementById('box').mydiv//获取元素的自定义属性值， IE 不支持非
+document.getElementById('box').getAttribute('class');//获取元素的 class 值，IE 不支持
+document.getElementById('box').getAttribute('className');//非 IE 不支持
+
+PS：在 IE7 及更低版本的IE浏览器中，使用 setAttribute()方法设置 class 和 style 属性是没有效果的，虽然 IE8 解决了这个bug，但还是不建议使用。
+
+removeAttribute()方法
+
+removeAttribute()可以移除 HTML 属性。
+document.getElementById('box').removeAttribute('style');//移除属性
+
+PS：IE6 及更低版本不支持 removeAttribute()方法</p>
+
+<h1 style="color:red">dataTransfer 对象</h1>
+	<p>dataTransfer 对象
+
+| 属性 | 描述 |
+| ————- |:————-:|
+| dropEffect | 设置或获取拖曳操作的类型和要显示的光标类型 |
+| effectAllowed | 设置或获取数据传送操作可应用于该对象的源元素 |
+
+| 方法 | 描述 |
+| ————- |:————-:|
+| clearData | 通过 dataTransfer 或 clipboardData 对象从剪贴板删除一种或多种数据格式 |
+| getData | 通过 dataTransfer 或 clipboardData 对象从剪贴板获取指定格式的数据
+| setData | 以指定格式给 dataTransfer 或 clipboardData 对象赋予数据</p>
+
+<h1 style="color:red">跨浏览器获取目标对象</h1>
+<h1 style="color:red">innerText的问题跨浏览器获取和设置innerText</h1>
+	<p id="element">123456</p>
+	<p>innerText在IE中能正常工作，但是innerText在FireFox中却不行</p>
+<h1 style="color:red">oninput,onpropertychange,onchange的用法</h1>
+	<p>onchange触发事件必须满足两个条件：
+
+a）当前对象属性改变，并且是由键盘或鼠标事件激发的（脚本触发无效）
+ 
+b）当前对象失去焦点(onblur)；
+
+onpropertychange的话，只要当前对象属性发生改变，都会触发事件，但是它是IE专属的；
+
+oninput是onpropertychange的非IE浏览器版本，支持firefox和opera等浏览器，但有一点不同，它绑定于对象时，并非该对象所有属性改变都能触发事件，它只在对象value值发生改变时奏效</p>
+<h1 style="color:red">访问XMLHTTPRequest对象</h1>
+<h1 style="color:red">禁止选取网页内容</h1>
+	<p>问题：  
+FF需要用CSS禁止，IE用JS禁止  
+ 
+解决方法：  
+IE: obj.onselectstart = function() {return false;}  
+FF: -moz-user-select:none;</p>
+
+<h1 style="color:red">三大不冒泡事件</h1>
+	<p>所有浏览器的focus/blur事件都不冒泡，万幸的是大部分浏览器支持focusin/focusout事件，不过可恶的firefox连这个都不支持。
+
+IE6、7、8下 submit事件不冒泡。
+IE6、7、8下 change事件要等到blur时才触发。</p>
+
+<h1 style="color:red">万恶的滚轮事件</h1>
+	<p>IE6-11 chrome mousewheel wheelDetla 下 -120 上 120
+ 
+firefox DOMMouseScroll detail 下3 上-3
+ 
+firefox wheel detlaY 下3 上-3
+ 
+IE9-11 wheel deltaY 下40 上-40
+ 
+chrome wheel deltaY 下100 上-100
+
+关于鼠标滚轮事件，IE支持mousewheel，火狐支持DOMMouseScroll。
+判断鼠标滚轮是向上还是向下，IE是通过wheelDelta属性，而火狐是通过detail属性</p>
+<div id="item" draggable="true"></div>
+<div id="drop"></div>
+</body>
+<script type="text/javascript">
+if(window.XMLHttpRequest){
+	xhr = new XMLHttpRequest();//fei ie
+}else if(window.ActiveXObject){
+	xhr = new ActiveXObject("Microsoft.XMLHttp");//ie
+}
+console.log(xhr);
+var obj = document.getElementById('element');
+innerText(obj,'nihaohaoh');
+////跨浏览器获取innerText
+function getInnerText(element){
+	return (typeof element.textContent == 'string') ?element.textContent:element.innerText;
+}
+//console.log(getInnerText(obj))
+//跨浏览器设置innerText
+function innerText(obj,text){
+	if(navigator.appName.indexOf("Explorer")>-1){
+		obj.innerText = text;
+	}else{
+		obj.textContent = text;
+	}
+}
+//跨浏览器设置innerText
+function setInnerText(element,text){
+	if(typeof element.textContent == 'string'){
+		element.textContent = text;
+	}else{
+		element.innerText = text;
+	}
+}
+//setInnerText(obj,'6666')
+
+var box1 = document.querySelectorAll('.box1')[0];
+//跨浏览器获取目标对象
+function getTarget(ev){
+    if(ev.target){//w3c
+        return ev.target;
+    }else if(window.event.srcElement){//IE
+        return window.event.srcElement;
+    }
+}
+//console.log(getTarget(document.body))
+
+window.onload = function(){
+	var target = document.getElementById('drop');
+        listenEvent(target,'dragenter',cancelEvent);
+        listenEvent(target,"dragover",dragOver);
+        listenEvent(target,'drop', function (evt) {
+            cancelPropagation(evt);
+            evt = evt || window.event;
+            evt.dataTransfer.dropEffect = 'copy';
+            var id = evt.dataTransfer.getData('Text');
+            target.appendChild(document.getElementById(id));
+        });
+ 
+        var item = document.getElementById('item');
+        item.setAttribute("draggable",'true');
+        listenEvent(item,'dragstart', function (evt) {
+            evt = evt || window.event;
+            evt.dataTransfer.effectAllowed = 'copy';
+            evt.dataTransfer.setData('Text',item.id);
+        });
+    };
+ 
+    function dragOver(evt){
+        if(evt.preventDefault) evt.preventDefault();
+        evt = evt || window.event;
+        evt.dataTransfer.dropEffect = 'copy';
+        return false;
+}
+function dragOver(evt){
+	if(evt.preventDefault) evt.preventDefault();
+	evt = evt||window.event;
+	evt.dataTransfer.dropEffect = 'copy';
+	return false;
+}
+
+
+
+
+var box = document.querySelectorAll('.box')[0];
+var box1 = document.querySelectorAll('.box1')[0];
+var parentNode = box1.parentNode||box1.parentElment;/*IE parentElment*/
+
+//console.log(box1.dataset.ysh='green')
+//console.log(box1.attributes[0].nodeType)//2
+//console.log(box1.attributes[0].nodeValue) //box1
+//console.log(box1.attributes['class'])
+//console.log(box1.attributes.getNamedItem('id'))
+
+//console.log(box1.getAttribute('data-ysh'))
+
+//console.log(box1.getAttribute('class'))//获取元素的 class 值，IE 不支持
+//console.log(box1.getAttribute('className'))//非 IE 不支持
+box1.setAttribute('data-ysh','kkkk') ;
+/*element.setAttribute(class, value);  //for firefox
+element.setAttribute(className, value);  //for IE*/
+box1.removeAttribute('data-ysh')
+
+function size(){
+	var w = 0,h = 0;
+	if(!window.innerWidth){
+		w = (document.documentElement.clientWidth?document.documentElement.clientWidth:document.body.clientWidth);
+		h = (document.documentElement.clientHeight?document.documentElement.clientHeight:document.body.clientHeight);
+	}else{
+		w = window.innerWidth;
+		h = window.innerHeight;
+	}
+	return {width:w,height:h};
+}
+console.log(size());
+
+
+function listenEvent(eventObj,event,eventHandler){
+	if(eventObj.addEventListener){//w3c
+		eventObj.addEventListener(event,eventHandler,false);
+	}else if(eventObj.attachEvent){//ie
+		event = "on"+event;
+		eventObj.attachEvent(event,eventHandler);
+	}else{
+		eventObj["on"+event] = eventHandler;
+	}
+}
+//取消事件
+function cancelEvent(event){
+	if(event.preventDefault){
+		event.preventDefault();//w3c
+	}else{
+		event.returnValue = true;//ie
+	}
+}
+//取消传递
+function cancelPropagation(e){
+	if(e.stopPropagation){
+		e.stopPropagation();//w3c
+	}else{
+		e.cancelBubble = true;//ie
+	}
+}
+window.onload = function(){
+	var form = document.forms[0];
+	listenEvent(form,"submit",validateFields);
+}
+function validateFields(evt){
+	evt = evt?evt:window.event;
+	var user = document.forms[0].use;
+	var pwd = document.forms[0].pwd;
+	if(user.value==''){
+		user.nextSibling.innerHTML='*用户名不能为空';
+		invalid = true;
+	}
+	if(pwd.value==''){
+		pwd.nextSibling.innerHTML='*密码不能为空';
+		invalid = true;
+	}
+	if(invalid){
+		cancelEvent(evt);
+	}
+}
+
+
+
+
+document.onclick = mouseClick;
+function mouseClick(ev){
+    ev = ev || window.event;//window.event 兼容IE
+    var x = 0,y = 0;
+    if(ev.pageX){
+    	x = ev.pageX;
+    	y = ev.pageY;
+    }else if(ev.clientX){
+    	var offsetX = 0,offsetY = 0;
+    	if(document.documentElement.scrollLeft){
+    		offsetX = document.documentElement.scrollLeft;
+    		offsetY = document.documentElement.scrollTop;
+    	}else if(document.body){
+    		offsetX = document.body.scrollLeft;
+    		offsetY = document.body.scrollTop;
+    	}
+    	x = ev.clientX + offsetX;
+    	y = ev.clientY + offsetY;
+    }
+    console.log("位置：x="+x+"y:"+y);
+}
+
+
+
+
+
+
+var ysh = document.createElement('h1');
+var test = document.createTextNode("YSHNIHAO");
+ysh.appendChild(test);
+document.body.appendChild(ysh);
+var box1 = document.querySelectorAll('.box1')[0];
+//alert(box1.style.width)//写在样式表里无法读取，只能得到写在行内的
+//alert(getComputedStyle(box1).width)//300px适用于标准浏览器       IE6、7、8不识别
+//alert(box1.currentStyle.width)适用于IE浏览器，标准浏览器不识别
+
+if(box1.currentStyle){
+	//alert(box1.currentStyle);
+}else{
+	//alert(getComputedStyle(box1).width);
+}
+
+
+
+//console.log(box.childNodes)节点集合包含文本节点及标签节点
+//console.log(box.children)节点集合
+//console.log(box1.textNodes)
+//alert(box.lastChild.previousSibling)
+//console.log(box.firstChild.nextSibling)
+//console.log(box.childNodes)
+//console.log(box.childNodes.length)
+///alert(document.activeElement)
+//alert(document.documentElement)//object HTMLHtmlElemen
+//console.log(document.documentElement)
+//console.log(event.srcElement)
+var str = '';
+for(var key in document.activeElement){
+	str+=document.activeElement[key];
+}
+//alert(str)
+	//var box = document.querySelectorAll('div')[0];
+	//box.innerHTML='<strong>ab</strong>';
+	//alert(box.childNodes[0].nodeValue)//null
+	//alert(box.nodeType)//1
+	//alert(box.nodeName)//div
+	//console.log(document.getElementsByTagName('p'));
+	//console.log(document.getElementsByTagName('p')[0]);//获取第一个 p 元素，HTMLLIElement
+
+	//alert(document.getElementsByTagName('p').item(0));//获取第一个 p 元素，HTMLLIElement
+</script>
+</html>

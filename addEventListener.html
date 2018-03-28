@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+
+<body>
+	<table id="outside" border="1">
+		<tr><td id="t1">one</td></tr>
+		<tr><td id="t2">two</td></tr>
+	</table>
+</body>
+<script type="text/javascript">
+function modifyText() {
+	var t2 = document.getElementById("t2");
+	if (t2.firstChild.nodeValue == "three") {
+		t2.firstChild.nodeValue = "two";
+	} else {
+		t2.firstChild.nodeValue = "three";
+	}
+}
+var el = document.getElementById("outside");
+el.addEventListener("click", modifyText, false);
+
+function getReferrer() {
+    var referrer = '';
+    try {
+        referrer = window.top.document.referrer;
+    } catch(e) {
+        if(window.parent) {
+            try {
+                referrer = window.parent.document.referrer;
+            } catch(e2) {
+                referrer = '';
+            }
+        }
+    }
+    if(referrer === '') {
+        referrer = document.referrer;
+    }
+    console.log(referrer);
+}
+getReferrer() ;
+</script>
+</html>

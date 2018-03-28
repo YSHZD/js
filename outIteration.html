@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+<script>
+var Iterator = function (obj) {
+  var current = 0;
+  var next = function(){
+  	current += 1;
+  }
+  var isDone = function (){
+  	return current >= obj.length;
+  }
+  var getCurrent = function () {
+  	return obj[current]
+  }
+  var getLength = function () {
+  	return obj.length
+  }
+  return {
+  	next:next,
+  	isDone:isDone,
+  	getCurrent:getCurrent,
+  	getLength:getLength
+  }
+}
+var compare = function (iterator1, iterator2) {
+	if(iterator1.getLength() === iterator2.getLength()){
+		while(!iterator1.isDone() && !iterator2.isDone()){
+	      if(iterator1.getCurrent() !== iterator2.getCurrent()){
+	      	throw Error('不一样')
+	      }
+	      iterator1.next();
+	      iterator2.next();
+		}
+		console.log('ok')
+	}else{
+		console.log('不一样')
+	}
+	
+}
+console.log(11)
+compare(Iterator([1,2,3]),Iterator([1,2,3,3]))
+</script>
+</html>

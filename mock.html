@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>mock</title>
+</head>
+<body>
+	
+</body>
+<script src="jquery-1.10.2.min.js"></script>
+<script src="http://mockjs.com/dist/mock.js"></script>
+<script>
+var Random = Mock.Random;
+var category = Mock.mock('http://api.com/category', {
+    'aside|14':[{
+      'title':'@cname',
+      'list|60':[{
+        'title':'@last',
+        'imgPath':Random.image('2000x2000','#5169b4','#FFF','png',''),
+
+      }]
+    }]
+});
+console.log(category)
+// Mock.mock( rurl, rtype, template )
+Mock.mock(/\.json/, 'get', {
+    type: 'get'
+})
+Mock.mock(/\.json/, 'post', {
+    type: 'post'
+})
+$.ajax({
+    url: 'http://api.com/category',
+    type: 'get',
+    dataType: 'json'
+}).done(function (data, status, jqXHR) {
+    console.log(data)
+})
+
+$.ajax({
+    url: 'hello.json',
+    type: 'post',
+    dataType: 'json'
+}).done(function (data, status, jqXHR) {
+    $('<pre>').text(JSON.stringify(data, null, 4))
+        .appendTo('body')
+})
+</script>
+
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>promise</title>
+</head>
+<body>
+	<script type="text/javascript">
+	/*pending: 等待中，或者进行中，表示还没有得到结果
+ 		resolved(Fulfilled): 已经完成，表示得到了我们想要的结果，可以继续往下执行
+	rejected: 也表示得到结果，但是由于结果并非我们所愿，因此拒绝执行*/
+	/*//函数调用栈
+		function want(){
+			console.log('xiangyaode');
+		}
+		function fn(want){
+			want&&want();
+		}
+		fn(want);*/
+		//11111111111111111111111
+		function want(){
+			console.log('here');
+		}
+		function fn(want){
+			console.log('go on');
+			return new Promise(function(resove,reject){
+				if(typeof want =='function'){
+					resove(want);
+				}else{
+					reject('TypeError:'+want+'nofunction');
+				}
+			})
+		}
+		/*fn(want).then(function(want){
+			want();
+		});
+		fn('123').catch(function(err){
+			console.log(err);
+		});*/
+		//22222222222222222222222
+		function want(){
+			console.log('here');
+		}
+		function fn(want){
+			console.log('go on');
+			return new Promise(function(resove,reject){
+				if(typeof want =='function'){
+					resove(want);
+				}else{
+					reject('TypeError:'+want+'nofunction');
+				}
+			}).then(function(want){
+			want();
+		}).catch(function(err){
+			console.log(err);
+		})
+		}
+		//333333333333333333333333
+		function want(){
+			console.log('here');
+		}
+		function fn(want){
+			console.log('go on');
+			return new Promise(function(resove,reject){
+				if(typeof want =='function'){
+					resove(want);
+				}else{
+					reject('TypeError:'+want+'nofunction');
+				}
+			}).then(function(want){
+			want();
+		}).then(null,function(err){
+			console.log(err);
+		})
+		}
+		//fn(want);
+		//fn('1223');
+
+		var fn = function(num){
+			return new Promise(function(resove,reject){
+				if(typeof num =='number'){
+					resove(num);
+				}else{
+					reject('TypeError');
+				}
+			})
+		};
+		fn(2).then(function(num){
+			console.log('first:'+num);
+			return num+1;
+		}).then(function(num){
+			console.log('second:'+num);
+			return num+1;
+		}).then(function(num){
+			console.log('three:'+num);
+			return num+1;
+		});
+
+		var url = 'https://hq.tigerbrokers.com/fundamental/finance_calendar/getType/2017-02-26/2017-03-10';
+		var url1 = 'https://hq.tigerbrokers.com/fundamental/finance_calendar/getType/2017-03-26/2017-06-10';
+		function getJSON(url){
+			return new Promise(function(resolve,reject){
+				var XHR = new XMLHttpRequest();
+        		XHR.open('GET', url, true);
+        		XHR.send();
+				XHR.onreadystatechange=function(){
+					if(XHR.readyState==4){
+						if(XHR.status==200){
+							try{
+								var response = JSON.parse(XHR.responseText);
+								resolve(response);
+							}catch(e){
+								reject(e);
+							}	
+						}else{
+							reject(new Error(XHR.statusText));
+						}
+					}	
+				};
+			})
+		}
+		getJSON(url).then(res=>console.log(res));
+		console.log('*************************************');
+		/*function renderAll(){
+			return Promise.all([getJSON(url),getJSON(url1)]);
+		}
+		renderAll().then(function(v){
+			console.log(v);
+		})*/
+
+		function renderAll(){
+			return Promise.race([getJSON(url),getJSON(url1)]);
+		}
+		renderAll().then(function(v){
+			console.log(v);
+		})
+		</script>
+</body>
+</html>

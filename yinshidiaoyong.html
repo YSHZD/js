@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+
+<body>
+	
+</body>
+<script type="text/javascript">
+var cat = {};
+Object.getPrototypeOf(cat).name = 'a';
+cat.__proto__.sex = 'b';
+cat.age = 'c';
+cat['like'] = 'd';
+//alert(cat.name+'||'+cat.age+'||'+cat['sex']+'||'+cat.like);
+//
+
+function per(){
+	this.getName = function(str){
+		alert(str);
+	}
+}
+per.prototype.getAge = function(age){
+	alert(age);
+}
+var a = {};
+a.__proto__ = per.prototype;
+//a.getAge(123);//cuowu
+
+var b = {};
+b.__proto__ = new per();
+b.__proto__.constructor = b;
+//b.getName('ysh');
+//b.getAge(100);
+
+
+function A(){
+	this.showA = function(){
+		alert('A');
+	}
+}
+function B(){
+	this.showB = function(){
+		alert('B');
+	}
+}
+function C(){};
+B.prototype = new A();
+B.prototype.constructor = B;
+
+C.prototype = new B();
+C.prototype.constructor = C;
+
+var D = new C();
+//D.showB();
+//D.showA();
+//
+
+
+(function(){
+function Person(name){
+	this.name = name;
+}
+function Teacher(name,books){
+	//call 方法可以将一个函数的对象的上下文从初始化变成this来决定调用person的构造函数没有new所以他是个空对象 
+	//Person.call(this,name);
+	Person.prototype.constructor.call(this,name);
+	this.books = books;
+}
+//Teacher.prototype = new Person();
+//Teacher.prototype.constructor = Teacher;
+Teacher.prototype.getBook = function(){
+	alert(this.books+'|||'+this.name);
+}
+var bb = new Teacher('jin','kkkk');
+//bb.getBook();
+//alert(bb.constructor)
+function extend(subClass,superClass){
+	//初始化一个空对象，为了转换主父类关系
+	var F = function(){};
+	F.prototype = superClass.prototype;
+	subClass.prototype = new F();
+	subClass.prototype.constructor = subClass;
+	subClass.superClass = superClass.prototype;
+	if(superClass.prototype.constructor==Object.prototype.constructor){
+		superClass.prototype.constructor = superClass;
+	}
+}
+function Author(name,books){
+	//Person.call(this,name);
+	//subClass.superClass = superClass.prototype
+	//superClass.prototype.constructor.call(this,name)
+	Author.superClass.constructor.call(this,name);
+
+	this.books = books;
+
+	this.getBook = function(){
+		alert(this.name+'|||'+this.books);
+	}
+}
+
+extend(Author,Person);
+var peter = new Author('peter','ggg');
+//peter.getBook();
+
+
+
+var JSON = {};
+JSON.prototype = {
+	toJSONString:function(){
+		var outPut = [];
+		for(key in this){
+			outPut.push(key+"-->"+this[key]);
+		}
+		return outPut;
+	}
+};
+function mixin(receivingClass,givingClass){
+	for(methodName in givingClass.prototype){
+		if(!receivingClass.prototype[methodName]){
+			receivingClass.prototype[methodName] = givingClass.prototype[methodName];
+		}
+	}
+}
+var o = {name:'yun',age:6}
+var o = function(){
+	this.name = 'yun';
+	this.age = 66;
+};
+mixin(o,JSON);
+var h = new o();
+//document.write(h.toJSONString().join("|"));
+
+
+
+var JSON1 ={
+	toJSONString : function(){
+		var outPut = [];
+		for(key in this){
+			outPut.push(key+"#-->"+this[key]);
+		}
+		return outPut;
+	}
+};
+function mixin(receivingClass,givingClass){
+	for(methodName in givingClass){
+		if(!receivingClass.__proto__[methodName]){
+			receivingClass.__proto__[methodName]= givingClass[methodName];
+		}
+	}
+}
+var p = {name:"go",age:33};
+mixin(p,JSON1);
+document.write(p.toJSONString().join("*"));
+
+
+
+
+
+
+
+
+
+})()
+</script>
+</html>

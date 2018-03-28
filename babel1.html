@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>babel</title>
+</head>
+<body>
+	
+</body>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-
+standalone/6.4.4/babel.min.js"></script>
+<script type="text/babel">
+let arr = [1,2,43,5];
+let new = arr.map(item => item *2)
+console.log(new)
+</script> -->
+<script src="https://google.github.io/traceur-compiler/bin/traceur.js"></script>
+<script src="https://google.github.io/traceur-compiler/bin/BrowserSystem.js"></script>
+<script src="https://google.github.io/traceur-compiler/src/bootstrap.js"></script>
+<script type="module">
+/*import './Greeter.js';*/
+class Calc {
+constructor(){
+console.log('Calc constructor');
+}
+add(a, b){
+return a + b;
+}
+}
+var c = new Calc();
+console.log(c.add(4,5));
+</script>
+<script>
+var a = [];
+for(var i=0;i<10;i++){
+	a[i] = function(){
+		console.log(i)
+	}
+}
+a[6]()
+var a = [];
+for(let i=0;i<10;i++){
+	a[i] = function(){
+		console.log(i)
+	}
+}
+/*数组的解构赋值 对象的解构与数组有一个重要的不同。数组的元素是按次序排列的，变量的取值由它的位置决定；而对象的
+属性没有次序，变量必须与属性同名，才能取到正确的值。字符串也可以解构赋值。这是因为此时，字符串被转换成了一个类似数组的对象*/
+/*var [a,b,c,d] = [1,2,3,4];
+alert(d)//4*/
+/*let [head, ...tail] = [2,3,4,5,6];
+alert(tail) //3,4,5,6*/
+/*function* fibs() {
+var a = 0;
+var b = 1;
+while (true) {
+yield a;
+[a, b] = [b, a + b];
+}
+}
+var [first, second, third, fourth, fifth, sixth] = fibs();
+alert(sixth)//5*/
+a[6]();
+var tmp = new Date();
+function f() {
+console.log(tmp);
+if (false) {
+var tmp = "hello world";
+}
+}
+f(); // undefined
+//暂时性死区 暂时性死区的本质就是，只要一进入当前作用域，所要使用的变量就已经存在了，但是不可获取，只有等到声明变量的那一行代码出现，才可以获取和使用该变量
+if (true) {
+// TDZ 开始
+tmp = 'abc'; // ReferenceError
+console.log(tmp); // ReferenceError
+let tmp; // TDZ 结束
+console.log(tmp); // undefined
+tmp = 123;
+console.log(tmp); // 123
+}
+</script>
+</html>

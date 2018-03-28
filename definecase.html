@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+
+<body>
+<div id="div">div</div>
+<span id="span">span</span>
+</body>
+<script type="text/javascript">
+window.onload = function(){
+	var oDiv = document.getElementById('div');
+	var oSpan = document.getElementById('span');
+	bindEvent(oSpan,'show',function(){
+		alert(1);
+	});
+	bindEvent(oSpan,'show',function(){
+		alert(5);
+	});
+	bindEvent(oSpan,'show',function(){
+		alert(7);
+	});
+	function bindEvent(obj,events,fn){
+		obj.Listenter = obj.Listenter || {};
+		obj.Listenter[events] = obj.Listenter[events] || [];
+		obj.Listenter[events].push(fn);
+		if(obj.addEventListener){
+			obj.addEventListener(events,fn,false);
+		}else{
+			obj.attachEvent('on'+events,fn);
+		}
+	}
+	function fireEvent(obj,events){
+		for(var i=0;i<obj.Listenter[events].length;i++){
+			obj.Listenter[events][i]();
+		}
+	}
+	fireEvent(oSpan,'show');
+}	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*if(oDiv.addEventListener){
+		oDiv.addEventListener('show',function(){
+			alert(1);
+		},false);
+}
+else{
+	oDiv.attachEvent('on'+'show',function(){
+		alert(1);
+	});
+}
+
+// if(oDiv.addEventListener){
+// 		oDiv.addEventListener('show',function(){
+// 			alert(2);
+// 		},false);
+// }
+// else{
+// 	oDiv.attachEvent('on'+'show',function(){
+// 		alert(2);
+// 	});
+// }
+oDiv.show(); 
+*/
+</script>
+</html>

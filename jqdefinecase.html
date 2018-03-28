@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		#div1 div,#div2 div,#div3 div{width:200px;height:200px;border:1px solid #000;display:none;}
+		.active{background:red;}
+	</style>
+</head>
+<script src="jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		var d1 = new Tab();
+		d1.init('div1',{
+			event:'mouseover',
+			delay:200
+		});
+
+		var d2 = new Tab();
+		d2.init('div2',{
+		});
+		d2.now(2);
+		$(d2).on('beforeClick',function(){
+			alert(d2.getContent());
+		});
+		$(d2).on('afterClick',function(){
+			alert(d2.getContent());
+		})
+
+		var d3 = new Tab();
+		d3.init('div3',{
+		});
+		$('#input1').click(function(){
+			alert(d3.getContent());
+			//alert(d2.getContent());
+		})
+	});
+	function Tab(){
+		this.oParent = null;
+		this.oInput = null;
+		this.oDiv = null;
+		this.iNow = 0;
+		this.settings = {
+			event:'click',
+			delay:0
+		}
+	}
+	Tab.prototype.init = function(obj,opt){
+		$.extend(this.settings,opt);
+		this.oParent = $('#'+obj);
+		this.oDiv = this.oParent.find('div');
+		this.oInput = this.oParent.find('input');
+		this.change();
+	}
+	Tab.prototype.change = function(){
+		var This = this;
+		var timer = null;
+		this.oInput.on(this.settings.event,function(){
+			var _this = this;
+			if(This.settings.event == 'mouseover' && This.settings.delay){
+				timer = setTimeout(function(){show(_this);},This.settings.delay);
+			}else{
+				show(_this);
+			}
+		}).mouseout(function(){clearTimeout(timer)});
+		function show(obj){
+			$(This).trigger('beforeClick');
+			This.oInput.attr('class','');
+			This.oDiv.css('display','none');
+			$(obj).attr('class','active');
+			This.oDiv.eq($(obj).index()).css('display','block');
+			This.iNow = $(obj).index();
+			$(This).trigger('afterClick');
+		}
+	};
+	Tab.prototype.now = function(index){
+		this.oInput.attr('class','');
+		this.oDiv.css('display','none');
+		this.oInput.eq(index).attr('class','active');
+		this.oDiv.eq(index).css('display','block');
+		this.iNow = index;
+	};
+	Tab.prototype.getContent = function(){
+		return this.oDiv.eq(this.iNow).html();
+	}
+	var num=2.123214;
+	alert(Math.floor(num.toPrecision(4)));
+</script>
+<body>
+<div id="div1">
+	<input type="button" class="active" value='1'>
+	<input type="button"  value='2'>
+	<input type="button"  value='3'>
+	<div style="display:block">11111</div>
+	<div>22222</div>
+	<div>33333</div>
+</div>	
+<div id="div2">
+	<input type="button" class="active" value='1'>
+	<input type="button"  value='2'>
+	<input type="button"  value='3'>
+	<div style="display:block">11111</div>
+	<div>22222</div>
+	<div>33333</div>
+</div>
+<div id="div3">
+	<input type="button" class="active" value='1'>
+	<input type="button"  value='2'>
+	<input type="button"  value='3'>
+	<div style="display:block">11111</div>
+	<div>22222</div>
+	<div>33333</div>
+</div>
+<input type="button" value="点击" id="input1">
+</body>
+</html>

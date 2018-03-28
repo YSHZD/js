@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript">
+		function printTime(){
+    var timer1=new Date();
+   var timer=timer1.toLocaleString();
+   timer=timer.replace(/[\/]/g,"-");
+    //timer=timer.replace(/日/,"");
+   console.log(timer);
+}setInterval("printTime()",1000);
+	</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>objsort</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*可获取用户,通过哪个关键词访问该页,可自行添加SOGOU,SOSO,有道等搜索引擎*/
+var refer=document.referrer;
+var sosuo=refer.split(".")[1];
+var grep=null;
+var str=null;
+var keyword=null;
+switch(sosuo){
+ case "baidu":
+  grep=/wd\=.*\&/i;
+  str=refer.match(grep)
+  keyword=str.toString().split("=")[1].split("&")[0];
+  console.log(decodeURIComponent(keyword));
+ break;
+ case "google":
+  grep=/&q\=.*\&/i;
+  str=refer.match(grep)
+  keyword=str.toString().split("&")[1].split("=")[1];
+  console.log(decodeURIComponent(keyword));
+ break;
+}
+
+	
+		var friends = [{name:'李晨',age:40},{name:'范冰冰',age:35},{name:'刘翔',age:32},{name:'景甜',age:25}];
+		function compare(a,b){
+			return a.age - b.age;
+		}
+		var newFriend = friends.sort(compare);
+		for(var key in newFriend){
+			document.write(newFriend[key].name+newFriend[key].age+'<br>');
+		}
+	</script>
+</body>
+</html>

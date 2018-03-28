@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>css</title>
+	<style>
+
+		.img{
+			filter:grayscale(100%);
+			-webkit-filter:grayscale(100%);
+			-ms-filter:grayscale(100%);
+			-moz-filter:grayscale(100%);
+			-o-filter:grayscale(100%);
+		}
+		.nav li{border-right:1px solid red;background: pink;font-size:40px;}
+		.nav li:last-child{border-right:none;}
+		/*.nva li:not(:last-child){border-right:1px solid red;background: pink;}*/
+		body:before{
+			content:"";
+			position: fixed;
+			top:-10px;
+			left:0;
+			width:100%;
+			height:10px;
+			-webkit-box-shadow:0 0 10px rgba(0,0,0,.8);
+			-moz-box-shadow:0 0  10px rgba(0,0,0,.8);
+			box-shadow:0 0  10px rgba(0,0,0,.8);
+			z-index:100;
+		}
+		.p{
+			-webkit-align-items:center;
+			-ms-flex-align:center;
+			align-items:center;
+			display: -webkit-flex;
+			display: flex;
+			width:calc(100%-200px);
+		}
+		.help{
+			-moz-osx-font-smoothing:grayscale;
+			-webkit-font-smoothing:antialiased;
+			text-rendering: optimizeLegibility;
+		}
+	</style>
+</head>
+<body>
+	<img src="https://ss1.bdstatic.com/kvoZeXSm1A5BphGlnYG/skin_zoom/883.jpg?2" alt="" width='200' class="img">
+	<ul class="nav">
+		<li class="help">1我企鹅哦日额为穷人和即可前往融化即可前往海口去玩</li>
+		<li>1我企鹅哦日额为穷人和即可前往融化即可前往海口去玩</li>
+		<li>3</li>
+		<li>4</li>
+		<li>5</li>
+	</ul>
+	<p style="height: 300px;background: pink" class="p">
+	<img src="https://ss1.bdstatic.com/kvoZeXSm1A5BphGlnYG/skin_zoom/883.jpg?2" alt="" height='200'>
+	</p>
+</body>
+</html>

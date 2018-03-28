@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+
+<body>
+	
+</body>
+<script type="text/javascript">
+	function Person(name,sex,age){
+		this.setName(name);
+		this.setSex(sex);
+		this.setAge(age);
+	}
+	Person.prototype = {
+		setAge:function(age){
+			if(age>0 && age<150){
+				this.age = age;
+			}else{
+				throw new Error("年纪必须在0~150之间");
+			}
+		},
+		setName:function(name){
+			if(name !== ''){
+				this.name = name;
+			}else{
+				throw new Error("姓名不能为空");
+			}
+		},
+		setSex:function(sex){
+			var reg = /[\u4e00-\u9fa5]/g;
+			if(!reg.test(sex)){
+				sex = sex.toLowerCase();
+			}
+			if(sex == '男' || sex == '女'|| sex == 'man' || sex == 'women'||sex == 'boy' ||sex == '男' ||sex == 'girl'){
+				this.sex = sex;
+			}else{
+				throw new Error("性别错误");
+			}
+		}
+
+	}
+	var Person1 = new Person('y','GIRL',60);
+</script>
+
+</html>

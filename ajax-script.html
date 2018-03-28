@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>跨域</title>
+</head>
+<script type="text/javascript">
+	/*function result(data){
+		console.log(data);
+	}
+	function search(){
+		var city = document.querySelectorAll('#city')[0];
+		var cityName = city.value;
+		var url = "http://www.tianqi.com?city="+cityName+"&result";
+		var script = document.createElement("script");
+		script.src = url;
+		var head = document.querySelectorAll('head')[0];
+		head.appendChild(script);
+	}*/
+</script>
+
+<body>
+	<input type="text" name="" id='city'><br>
+	<input type="button"  name="" value='查询'>
+</body>
+</html>
+<script type="text/javascript">
+	function cross(obj){
+		//jsonp 仅支持get请求
+		var defaults = {
+			url:'#',
+			dataType:'jsonp',
+			jsonp:'callback',
+			data:{},
+			success:function(data){}
+		}
+		//使用传递进来的obj中的值替换default中的值
+		for(var key in obj){
+			defaults[key] = obj[key];
+		}
+		//这里是是默认的回调函数名称
+		var cbName = 'xixi';
+		if(defaults.jsonpCallback){
+			cbName = defaults.jsonpCallback;
+		}
+		window[cbName] = function(data){
+			defaults.success(data);
+		}
+		var param = '';
+		for(var attr in defaults.data){
+			param+=attr+'='+defaults.data[attr]+'&';
+		}
+		if(param){
+			param = param.substring(0,param.length-1);
+			param = '&'+param;
+		}
+		var script = document.createElement('script');
+		script.src = defaults.url+'?'+defaults.jsonp+'='+cbName+param;
+		var head = document.getElementsByTagName('head')[0];
+		head.appendChild(script);
+
+	}
+</script>
+<script type="text/javascript">
+	cross({
+		url:"http://www.tianqi.com",
+		data:{city:'beijing'},
+		jsonp:'callback',
+		dataType:'jsonp',
+		jsonpCallback:'getResult',
+		success:function(data){}
+	});
+</script>

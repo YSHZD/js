@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="good">12342431</div>
+</body>
+<script type="text/javascript">
+	var obj = document.getElementById('good');
+	/*function setStyle(obj,css){
+		for(var atr in css){
+			obj.style[atr] = css[atr];
+		}
+	}
+	setStyle(obj,{width:"200px",height:"200px",color:"red"});*/
+
+	/*obj.style.cssText = "color:pink;";*/
+
+	function setStyle(el,strCss){
+		function endsWith(str,suffix){
+			var l = str.length - suffix.length;
+			return l >= 0 && str.indexOf(suffix,l) == l;
+		}
+		var str = el.style;
+		cssText = str.cssText;
+		if(!endsWith(cssText,';')){
+			cssText += ';';
+		}
+		str.cssText = str.cssText + strCss;alert(str.cssText);
+	}
+	setStyle(obj,"color:blue");
+	setStyle(obj,"font-size:50px")
+</script>
+</html>

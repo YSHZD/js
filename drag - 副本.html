@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#a{width:100px;height:100px;background:red;position:absolute;cursor:pointer;}
+		#b{width:100px;height:100px;background:pink;position:absolute;left:100px;}
+        #c{width:100px;height:100px;background:green;position:absolute;left:200px;}
+	</style>
+</head>
+<script type="text/javascript" src="style.js"></script>
+<body>
+	<div id="a"></div>
+	<div id="b"></div>
+    <div id="c"></div>
+	
+</body>
+<script type="text/javascript">
+    window.onload = function(){
+    	var d1 = new Drag('#a');
+    	d1.init({
+            toDown:function(){
+                document.title = "xia1";
+            }
+        });
+        var d2 = new Drag('#b');
+        d2.init({
+            toDown:function(){
+                document.title = 'xiale2';
+            },
+            toMove:function(){
+                document.title = 'moving2';
+            }
+        });
+        var d3 = new Drag('#c');
+        d3.init({
+            toDown:function(){
+                document.title = 'xiale3';
+            },
+            toMove:function(){
+                document.title = 'moving3';
+            },
+            toUp:function(){
+                document.title = 'stoped3';
+            }
+        });
+    }
+    function Drag(tag){
+    	this.obj = document.querySelectorAll(tag)[0];
+    	this.disX = 0;
+    	this.disY = 0;
+        this.setting = {//默认参数
+            toDown:function(){
+               
+            },
+            toMove:function(){
+                
+            },
+            toUp:function(){
+                
+            }
+        }
+    }
+    Drag.prototype.init = function(opt){
+    	var This = this;
+        extend(this.setting,opt);
+    	this.obj.onmousedown = function (ev){
+    		var ev = ev || window.event;
+    		This.fnDown(ev);
+            This.setting.toDown();
+    		document.onmousemove = function(ev){
+    			var ev = ev || window.event;
+    			This.fnMove(ev);
+                This.setting.toMove();
+    		};
+    		document.onmouseup = function(){
+                This.setting.toUp();
+    			This.fnUp();
+    		};
+    		return false;
+    	};
+    };
+    Drag.prototype.fnDown = function(ev){
+    	this.disX = ev.clientX - this.obj.offsetLeft;
+    	this.disY = ev.clientY - this.obj.offsetTop;
+        this.obj.style.zIndex = 999;
+    };
+    Drag.prototype.fnMove = function(ev){
+    	this.obj.style.left = ev.clientX - this.disX +'px';
+    	this.obj.style.top = ev.clientY - this.disY +'px';
+    };
+    Drag.prototype.fnUp = function(){
+       document.onmousemove = null;
+       document.onmouseup = null;
+       this.obj.style.zIndex = 2;
+    };
+    
+    
+
+
+
+
+    function extend(obj1,obj2){
+    	for(var attr in obj2){
+    		obj1[attr] = obj2[attr];
+    	}
+
+    }
+</script>
+</html>

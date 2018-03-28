@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>map</title>
+</head>
+<body>
+	
+</body>
+<script>
+window.JSON = {
+	parse: function(jsonStr){
+		return eval('(' +jsonStr +')');
+	},
+	stringify: function(jsonObj){
+		var result = '',curVal;
+		if(jsonObj === null){
+			return String(jsonObj);
+		}
+		switch (typeof jsonObj){
+			case 'number':
+			case 'boolean':
+				return String(jsonObj);
+			case 'string':
+				return '"' + jsonObj + '"';
+			case 'undefined':
+			case 'function' :
+			 	return undefined;
+		}
+		switch(Object.prototype.toString.call(jsonObj)){
+			case '[object Array]':
+				result +='[';
+				for(var i=0,len = jsonObj.length;i<len;i++){
+					curVal = JSON.stringify(jsonObj[i]);
+					result +=(curVal === undefined?null:curVal) +",";
+				}
+				if(result !=='['){
+					result = result.slice(0,-1);
+				}
+				result +=']';
+				return result;
+			case '[object Data]':
+				return '"' +(jsonObj.toJSON ? jsonObj.toJSON():jsonObj.toString());
+			case '[object RegExp]':
+				return "{}";
+			case '[object Object]':
+				result +='{';
+				for(i in jsonObj) {
+					if(jsonObj.hasOwnProperty(i)){
+						curVal = JSON.stringify(jsonObj[i]);
+						if(curVal !==undefined){
+							result +='"'+i+'":'+curVal +',';
+						}
+					}
+				}
+				if(result !=='{'){
+					result = result.slice(0,-1);
+				}
+				result += '}';
+				return result;
+			case '[object Number]':
+			case '[object Boolean]':
+				return jsonObj.toString();
+		}
+	}
+}
+var json = [{abc :'abc',bb:'bb'},{abc :'abc',bb:'bb'},{abc :'abc',bb:'bb'}];
+var str = JSON.stringify(json);
+console.log(str);
+console.log(JSON.parse(str));
+
+
+
+
+
+
+
+
+
+var arr = [1,2,3,4,5,6,7,8];
+function multiply(item){
+	return item*2;
+}
+Array.prototype.map = function(fn,context){
+	var arr = [];
+	if(typeof fn ==="function"){
+		for(var k = 0,length = this.length;k<length;k++){
+			console.log(context);
+			console.log(this[k]);
+			console.log(k);
+			console.log(this);
+			arr.push(fn.call(context,this[k],k,this));
+		}
+	}
+	return arr;
+}
+//console.log(arr.map(multiply))
+</script>
+</html>

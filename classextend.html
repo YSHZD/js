@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+//类式继承:  new构造函数
+function Aaa(){//父类
+	this.name = [1,2,3];
+}
+Aaa.prototype.showName = function(){
+	alert(this.name);
+}
+var a = new Aaa();
+// a.showName();
+// 
+//继承属性
+function Bbb(){//子类
+	Aaa.call(this);
+}
+//继承方法
+var F = function(){};
+F.prototype = Aaa.prototype;
+Bbb.prototype = new F();
+Bbb.prototype.constructor = Bbb;//修正指向问题
+
+
+a.name.push(4);
+a.showName();//1,2,3,4
+var b = new Bbb();
+b.name.push(5);
+b.showName();//1,2,3,5
+//alert(b.constructor);
+
+</script>
+</html>

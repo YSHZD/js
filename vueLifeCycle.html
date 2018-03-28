@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>vue life cycle</title>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/vue/2.1.3/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<p>{{message}}</p>
+	</div>
+</body>
+<script type="text/javascript">
+	var vm = new Vue({
+		el:"#app",
+		data:{
+			message:'nihao'
+		},
+		beforeCreate:function(){
+			console.group('beforecreate 创建前状态++++++++++');
+			console.log("%c%s","color:red","el:"+this.$el);
+			console.log(this.$el);
+			console.log("%c%s","color:red","data:"+this.$data);
+			console.log("%c%s","color:red","message:"+this.message);
+		},
+		created:function(){
+			console.group('created 创建完毕++++++++++');
+			console.log("%c%s","color:red","el:"+this.$el);
+			console.log(this.$el);
+			console.log("%c%s","color:red","data:"+this.$data);
+			console.log("%c%s","color:red","message:"+this.message);
+		},
+		beforeMount:function(){
+			console.group('beforMount 挂载之前++++++++++');
+			console.log("%c%s","color:red","el:"+this.$el);
+			console.log(this.$el);
+			console.log("%c%s","color:red","data:"+this.$data);
+			console.log("%c%s","color:red","message:"+this.message);
+		},
+		mounted:function(){
+			console.group('Mounted 挂载结束状态++++++++++');
+			console.log("%c%s","color:red","el:"+this.$el);
+			console.log(this.$el);
+			console.log("%c%s","color:red","data:"+this.$data);
+			console.log("%c%s","color:red","message:"+this.message);
+		},
+		beforeUpdate:function(){
+			console.group('beforeupdate 更新之前状态++++++++++');
+			console.log("%c%s","color:red","el:"+this.$el);
+			console.log(this.$el);
+			console.log("%c%s","color:red","data:"+this.$data);
+			console.log("%c%s","color:red","message:"+this.message);
+		},
+		updated:function(){
+			console.group('updated 更新完成状态++++++++++');
+			console.log("%c%s","color:red","el:"+this.$el);
+			console.log(this.$el);
+			console.log("%c%s","color:red","data:"+this.$data);
+			console.log("%c%s","color:red","message:"+this.message);
+		},
+		beforeDestroy:function(){
+			console.group('beforeDestroy 销毁前状态++++++++++');
+			console.log("%c%s","color:red","el:"+this.$el);
+			console.log(this.$el);
+			console.log("%c%s","color:red","data:"+this.$data);
+			console.log("%c%s","color:red","message:"+this.message);
+		},
+		destroyed:function(){
+			console.group('Destroyde 销毁完成状态++++++++++');
+			console.log("%c%s","color:red","el:"+this.$el);
+			console.log(this.$el);
+			console.log("%c%s","color:red","data:"+this.$data);
+			console.log("%c%s","color:red","message:"+this.message);
+		}
+
+	});
+	//vm.message="ll";
+	//beforecreate : 举个栗子：可以在这加个loading事件 
+// created ：在这结束loading，还做一些初始化，实现函数自执行 
+// mounted ： 在这发起后端请求，拿回数据，配合路由钩子做一些事情
+// beforeDestory： 你确认删除XX吗？ destoryed ：当前组件已被删除，清空相关内容
+</script>
+</html>

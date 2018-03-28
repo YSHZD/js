@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>rem</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1, minimum-scale=1">
+
+	<style>
+	*{margin:0;padding:0;}
+
+
+	 .one{height:1rem;width:1rem;margin:0 auto;background: red;color:yellow;line-height: 1rem;text-align:center;font-size:0.12rem;display: inline-block;}
+	</style>
+</head>
+<body>
+	<div class="one"> 
+杨思海
+	</div><hr>
+	<div style="width:100px;height:100px;font-size:12px;background: red;color:yellow;">杨思海====</div>
+</body>
+	<script>
+    (function(doc, win) {
+      var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in win ? 'orientationchange' : 'resize',
+        recalc = function() {
+          var clientWidth = docEl.clientWidth;
+          if(!clientWidth) return;
+          docEl.style.fontSize = 200 * (clientWidth / 750) + 'px';
+        };
+      if(!doc.addEventListener) return;
+      win.addEventListener(resizeEvt, recalc, false);
+      doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window)
+</script>
+</html>

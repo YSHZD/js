@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	.one{height:100px;background: pink;margin-bottom:50px;}
+	.two{height:100px;background: yellow;margin-top:30px;width:100%;display: inline-block;}
+
+	.thr{height:300px;background: blue;width:100%;margin-top:100px;}
+	.for{height:400px;background: #666;width:100%;padding-top:100px;border:1px solid yellow;}
+	</style>
+</head>
+<script>
+function domReady( f ){
+	if ( domReady.done ) return f();
+	if ( domReady.timer ){
+		domReady.ready.push( f );
+	}else {
+		window.onload = function(){
+			isDOMReady();
+		}
+		// addEvent( window, "load", isDOMReady );
+		domReady.ready = [ f ];
+		domReady.timer = setInterval( isDOMReady, 13 );
+	}
+}
+function isDOMReady() {
+	if ( domReady.done ) return false;
+	if( document && document.getElementsByTagName && document.getElementById && document.body ){
+		clearInterval( domReady.timer );
+		domReady.timer = null;
+		for ( var i = 0; i < domReady.ready.length; i++ ){
+			domReady.ready[i]();
+		}
+		domReady.ready = null;
+		domReady.done = true;
+	}
+}
+console.log('1232');
+domReady(function(){
+	console.log("loaded")
+});
+</script>
+<body>
+	<h1>ewrqwe</h1>
+	<div class="one">
+rewq1
+	</div>
+	<div class="two">2
+	</div>
+	<hr>
+	<div class="thr">
+		<div class="for"></div>
+	</div>
+	<div id="one" style="position: relative;top:800px;left:20px">
+		<div id="two">222</div>
+	</div>
+</body>
+<script>
+function User(properties){
+	for(var i in properties){
+		(function(which){
+			// console.log(which)
+			var p=i;
+			which["get"+p]=function(){
+				return properties[p];
+			};
+			which["set"+p]=function(val){
+				properties[p] = val;
+			}
+		})(this)
+	}
+}
+var user = new User({
+	name:'ysh',
+	age:18
+});
+// console.log(user.getage())
+// user.setage(26);
+// console.log(user.getage())
+function prev( elem ){
+	do{
+		elem = elem.previousSibling;
+	} while ( elem && elem.nodeType != 1)
+	return elem;
+}
+function next ( elem ){
+	do{
+		elem = elem.nextSibling;
+	} while ( elem && elem.nodeType != 1)
+	return elem;
+}
+function first ( elem ){
+	elem = elem.firstChild;
+	return elem && elem.nodeType != 1 ? next( elem ) : elem;
+}
+function last (elem ){
+	elem = elem.lastChild;
+	return elem && elem.nodeType !=1 ? prev( elem ) :elem;
+}
+function parent ( elem, num ){
+	num = num || 1;
+	for (var i = 0; i < num; i++){
+		if(elem != null) elem.parentNode;
+		return elem;
+	}
+}
+
+HTMLElement.prototype.next = function() {
+	var elem = this;
+	do{	
+		elem = elem.nextSibling;
+	} while (elem && elem.nodeType != 1);
+
+	return elem;
+}
+HTMLElement.prototype.first = function () {
+    var elem = this;
+    elem = elem.firstChild;
+    return elem && elem.nodeType != 1 ? this.next.bind(elem)() : elem;
+    /*var elem = this;
+    elem = elem.firstChild;
+    while (elem && elem.nodeType != 1){
+    	elem = elem.nextSibling;
+    }
+    return elem;*/
+}
+HTMLElement.prototype.last = function (){
+	var elem = this;
+	elem = elem.lastChild;
+	return elem && elem.nodeType != 1 ? this.prev.call(elem) : elem;
+	/*var elem = this;
+	elem = elem.lastChild;
+	while (elem && elem.nodeType != 1){
+		elem = elem.previousSibling;
+	}
+	return elem;*/
+}
+HTMLElement.prototype.prev = function (){
+	var elem = this;
+	do{
+		elem = elem.previousSibling;
+	} while ( elem && elem.nodeType != 1)
+	return elem;
+}
+// console.log(document.body.last().prev().prev().first());
+function id(name){
+	return document.getElementById(name);
+}
+function tag(name,elem){
+	return ( elem || document).getElementsByTagName(name);
+}
+function text(e){
+	var t = "";
+	e = e.childNodes || e;
+	for ( var i = 0; i < e.length; i++ ){
+		t += e[i].nodeType != 1 ? e[i].nodeValue : text(e[i].childNodes)
+	}
+	return t;
+}
+
+/*????*/
+HTMLElement.prototype.text = function(){
+	var e = this;
+	var t = "";
+	e = e.childNodes || e;
+	for ( var i = 0; i < e.length; i++ ){
+		t += e[i].nodeType != 1 ? e[i].nodeValue : e[i].childNodes.text();
+	}
+}
+console.log(document.body.first())
+// console.log(document.body.last().prev().first().firstChild.nodeValue)
+// console.log(text(document.body.last().prev().first()));
+// console.log(document.body.last().prev().first());
+// console.log(tag('div',id('one'))[0]);
+window.onload = function(){
+	//console.log(111)
+}
+function hasClass(name, type){
+	var r = [];
+	var re = new RegExp("(^|\\s)" + name + "(\\s|$)");
+	var e = document.getElementsByTagName(type || "*");
+	for ( var i = 0; i < e.length; i++ ){
+		if( re.test(e[i]) ){
+			r.push ( e[i] );
+		}
+	}
+	return r;
+}
+function hasAttribute( elem, name){
+	return elem.getAttribute(name) != null;
+}
+function attr(elem, name, value){
+	if ( !name || name.constructor != String ) return '';
+	name = {'for':'htmlFor','class':'className'}[name] || name;/***************/
+	if ( typeof value != 'underfined' ){
+		elem[name] = value;
+		if ( elem.setAttribute ){
+			elem.setAttribute(name, value);
+		}
+		return elem[name] || elem.getAttribute(name) || '';
+	}
+}
+function create( elem ){
+	return document.createElementNS ? document.createElementNS( 'http://www.w3.org/1999/xhtml', elem ) : document.createElement( elem );
+}
+function before( parent, before, elem ){
+	if ( elem == null){
+		elem = before;
+		before = parent;
+		parent = before.parentNode;
+	}
+	parent.insertBofore( checkElem( elem ), before );
+}
+function append( parent, elem ){
+	parent.appendChild( checkElem( elem ));
+}
+// function checkElem( elem ){
+// 	return elem && elem.constructor == String ? document.createTextNode( elem ) : elem;
+// } 
+function checkElem(a){
+	var r = [];
+	if ( a.constructor != Array ) a = [ a ];
+	for ( var i = 0; i < a.length; i++){
+		if( a[i].constructor == String ){
+			var div = document.createElement("div");
+			div.innerHTML = a[i];
+			for ( var j = 0; j < div.childNodes.length; j++ ){
+				r[r.length] = div.childNodes[j];
+			}
+		}else if( a[i].length ){
+			for ( var j = 0; j < a[i].length; j++ ){
+				r[r.length] = a[i][j];
+			}
+		} else {
+			r[r.length] = a[i];
+		}
+	}
+	return r;
+}
+function remove( elem ){
+	if( elem ) elem.parentNode.removeChild( elem );
+}
+function empty( elem ){
+	while ( elem.firstChild ){
+		remove( elem.firstChild );
+	}
+}
+/*阻止冒泡事件*/
+function stopBubble(e){
+	if (e && e.stopPropagation ){
+		e.stopPropagation();
+	} else {
+		/*ie*/
+		window.event.cancelBubble = true;
+	}
+}
+/*阻止默认事件*/
+function stopDefault( e ){
+	if ( e && e.preventDefault ){
+		e.preventDefault();
+	} else {
+		window.event.returnValue = false;
+	}
+	return false;
+}
+// console.log(create('li'))
+/*while(!window.loaded()){
+	console.log(new Date().getTime())
+}*/
+
+/*window.addEventListenter('load',function(){console.log('ysh')},false)*/
+
+/*获取元素真实 最终的css样式属性值*/
+function getStyle( elem, name ){
+	if (elem.style[name]){
+		return elem.style[name];
+	} else if (elem.currentStyle){
+		/*ie*/
+		return elem.currentStyle[name];
+	} else if (document.defaultView && document.defaultView.getComputedStyle){
+		/*w3c*/
+		/*它使用的是通用的‘text-align’的样式规则*/
+		name = name.replace(/([A-Z])/g,"-$1");
+		name = name.toLowerCase();
+		var s = document.defaultView.getComputedStyle(elem, "");
+		return s && s.getPropertyValue(name);
+	} else {
+		return null;
+	}
+}
+/*获取元素的X位置*/
+function pageX( elem ){
+	return elem.offsetParent ? elem.offsetLeft + pageX( elem.offsetParent ) : elem.offsetLeft;
+}
+function pageY( elem ){
+	return elem.offsetParent ? elem.offsetTop + pageY ( elem.offsetParent ) : elem.offsetTop;
+}
+/*确定元素相对父亲的位置*/
+function parentX( elem ){
+	return elem.parentNode == elem.offsetParent ? elem.offsetLeft : pageX( elem ) - pageX( elem.parentNode );
+}
+function parentY( elem ){
+	return elem.parentNode == elem.offsetParent ? elem.offsetTop : pageY( elem ) - pageY( elem.parentNode )
+}
+/*获取css位置*/
+function posX( elem ) {
+	return parseInt( getStyle( elem, "left"));
+}
+function posY( elem ) {
+	return parseInt( getStyle( elem, "top"));
+}
+function setX(elem , pos){
+	elem.style.left = pos +"px";
+}
+function setY(elem , pos){
+	elem.style.top = pos +"px";
+}
+function addX(elem, pos) {
+	setX( posX(elem) + pos)
+}
+function addY(elem, pos) {
+	setY( posY(elem) + pos)
+}
+function getHeight( elem ) {
+	return parseInt( getStyle( elem, 'height'));
+}
+function getWidth( elem ) {
+	return parseInt( getStyle( elem, 'width'));
+}
+console.log(posX(document.body.last().prev()));
+/*即使元素隐藏，亦能分别获取它潜在的完整高度和宽带*/
+function resetCSS( elem, prop ){
+	var old = {};
+	for ( var i in prop ){
+		old[ i ] = elem.style[ i ];//记录旧属性
+		elem.style[ i ] = prop[ i ];
+	}
+	return old;
+}
+function restoreCSS( elem, prop ) {
+	for ( var i in prop ){
+		elem.style[ i ] = prop[ i ];
+	}
+}
+function fullHeight( elem ) {
+	if( getStyle( elem, 'display' ) != 'none' ){
+		return elem.offsetHeight || getHeight( elem );
+	}
+	var old = resetCSS( elem, {
+		display:'',
+		visibility:'hidden',
+		position:'absolute'
+	});
+	var h = elem.clientHeight || getHeight( elem );
+	restoreCSS( elem, old );
+	return h;
+}
+function fullWidth( elem ) {
+	if ( getStyle( elem, 'display' ) != 'none' ){
+		return elem.offsetWidth || getWidth( elem );
+	}
+	var old = resetCSS( elem, {
+		display:'',
+		visibility:'hidden',
+		position:'absolute'
+	});
+	var w = elem.clientWidth || getWidth( elem );
+	restoreCSS( elem, old );
+	return w;
+}
+/*透明度*/
+function setOpacity( elem, level ){
+	if ( elem.filters ) {
+		elem.style.filters = 'alpha(opacity=' + level + ')';
+	} else {
+		elem.style.opacity = level / 100;
+	}
+}
+function hide( elem ){
+	var curDisplay = getStyle( elem, 'display' );
+	if ( curDisplay != 'none') {
+		elem.$oldDisplay = curDisplay;
+		elem.style.display = 'none'
+	}
+}
+function show( elem ) {
+	elem.style.display = elem.$oldDisplay || '';
+}
+function slideDown( elem ){
+	elem.style.height = '0px';
+	show( elem );
+	var h = fullHeight( elem );
+	for ( var i = 0; i <= 100; i += 5 ){
+		(function() {
+			var pos = i;
+			setTimeout(function() {
+				elem.style.height = ( pos / 100 ) * h + "px";
+			}, ( pos + 1 ) * 10 );
+		})();
+	}
+}
+function fadeIn( elem ){
+	setOpacity( elem, 0);
+	show( elem );
+	for ( var i = 0; i <= 100; i +=5 ){
+		(function() {
+			var pos = i;
+			setTimeout(function() {
+				setOpacity( elem, pos);
+			}, (pos + 1) * 10 );
+		})();
+	}
+}
+/*浏览器储存*/
+var localStorageData = function( key ) {
+	this.key = key;
+}
+localStorageData.prototype = {
+	add:function( val ) {
+		this.val = val || [];
+		var curTime = new Date().getTime();
+		localStorage.setItem( this.key, JSON.stringify({data:val,time:curTime}))
+	},
+	get:function( exp ) {
+		var data = localStorage.getItem( this.key );
+		var dataObj = JSON.parse( data );
+		var _data = dataObj.data;
+		console.log(new Date().getTime() - dataObj.time > exp );
+		if( new Date().getTime() - dataObj.time > exp ) {
+			console.log('timerover')
+		} else {
+			return JSON.stringify( _data )
+		}
+	},
+	remove:function( key ) {
+		localStorage.removeItem( key );
+	},
+	clear:function() {
+		localStorage.clear()
+	}
+}
+var data = [
+	{"name":'dsa','pwd':12345},
+	{"name":'ds','pwd':123456}
+];
+var data2 = 
+	{name:'dsa',value:12345}
+;
+// console.log(serialize( data2 ));
+/*串行化*/
+function serialize( a ) {
+	var s = [];
+	if( a.constructor == Array ) { 
+		for ( var i = 0; i < a.length; i++ ){
+			 s.push( a[i].name + "=" + encodeURIComponent( a[i].value ));
+		}
+	} else {
+		for ( var j in a ){
+			s.push( j + "=" +encodeURIComponent( a[j] ));
+		}
+	}
+	return s.join( "&" );
+}
+var newlocal = new localStorageData( "users" );
+/*newlocal.add( data );
+console.log(newlocal.get(2))*/
+/*获取光标的水平位置*/
+function getX( e ) {
+	e = e || window.event;
+	return e.pageX || e.clientX + document.body.scrollLeft;
+}
+/*获取光标的垂直位置*/
+function getY( e ) {
+	e = e || window.event;
+	return e.pageX || e.clientY + document.body.scrollTop;
+}
+/*页面高度*/
+function pageHeight() {
+	return document.body.scrollHeight;
+}
+function pageWidth() {
+	return document.body.scrollWidth;
+}
+/*获取视口高度*/
+function windowHeight() {
+	var de = document.documentElement;
+	return self.innerHeight || ( de && de.clientHeight ) || document.body.clientHeight;
+}
+function windowWidth() {
+	var de = document.documentElement;
+	return self.innerWidth || ( de && de.clientWidth ) || document.body.clientWidth;
+}
+/*确定浏览器水平滚动位置*/
+function scrollX() {
+	var de = document.documentElement;
+	return self.pageXOffset || ( de && de.scrollLeft ) || document.body.scrollLeft;
+}
+function scrollY() {
+	var de = document.documentElement;
+	return self.pageYOffset || ( de && de.scrollTop ) || document.body.scrollTop;
+}
+/*window.scrollTo(0,1000)*/
+console.log(windowWidth());
+function ajax( options ) {
+	options = {
+		type:options.type || "POST",
+		url:options.url || "",
+		timeout:options.timeout || 5000,
+		onComplete:options.onComplete || function() {},
+		onError:options.Error || function() {},
+		onSuccess:options.onSuccess || function() {},
+		data:options.data || ""
+	};
+	var xml = new XMLHttpRequest();
+	xml.open(options.type, options.url, true);
+	var timeoutLength = options.timeout;
+	var requestDone = false;
+	setTimeout(function() {
+		requestDone = true;
+	}, timeoutLength);
+	xml.onreadystatechange = function() {
+		if ( xml.readyState == 4 && !requestDone) {
+			if ( httpSuccess( xml )) {
+				options.onSuccess( httpData( xml, options.type ))
+			} else {
+				options.onError();
+			}
+			options.onComplete();
+			xml = null;
+		}
+	};
+	xml.send();
+	function httpSuccess( xml ) {
+		try {
+			return !xml.status && location.protocol == "file:" || ( xml.status >= 200 && xml.status < 300) || xml.status == 304 || navigator.userAgent.status == "undefined";
+		} catch( e ){}
+		return false;
+	}
+	function httpData( xml, type ) {
+		var ct = xml.getResponseHeader("content-type");
+		var data = !type && ct.indexOf("xml") >= 0;
+		data = type == "xml" || data ? xml.responseXML : xml.responseText;
+		if ( type == "script" ){
+			eval.call( window, data )
+		}
+		return data;
+	}
+}
+</script>
+
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		#box{
+			position:fixed;
+			width:100px;
+			height:100px;
+			background:pink;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">hello</div>		
+</body>
+<script type="text/javascript">
+var arr = [{"q":"2","c":"23"}];
+
+	function isArray(value){
+		return Object.prototype.toString.call(value) === "[object Array]";
+	}
+	function isFunction(value){
+		return Object.prototype.toString.call(value) === "[object Function]";
+	}
+	function isRegExp(value){
+		return Object.prototype.toString.call(value) === "[object RegExp]";
+	}
+	/*function isJSON(value){
+		return window.JSON && Object.prototype.toString.call(value) === "[object JSON]";
+	}*/
+
+	/*如果直接调用构造函数，那么this会指向全局对象window,然后你的代码就会覆盖window的原生name。如果有其他地方使用过window.name, 那么你的函数将会埋下一个深藏的bug。*/
+	function Person(name){
+
+		if(this instanceof Person){
+			this.name = name;
+		}else {
+			return new Person(name);
+		}
+	}
+
+	/*假设有一个方法X，在A类浏览器里叫A,在b类浏览器里叫B,有些浏览器并没有这个方法,你想实现一个跨浏览器的方法。
+
+惰性载入函数的思想是：在函数内部改变函数自身的执行逻辑
+
+*/
+function X(){
+	if(A){return new A()}
+	else{
+		if(B){return new B()}
+		else{ throw new Error('no A or B');}
+	}
+}
+function X(){
+	if(A){X = function(){return new A();};}
+	else{
+		if(B){X = function(){return new B();};}
+		else{throw new Error('no A or B');}
+	}
+	return new X();
+}
+var timers = {
+	timerId:0,
+	timers:[],
+	add:function(fn){
+		this.timers.push(fn);
+	},
+	start:function(){
+		if(this.timerId){
+			return;
+		}
+		(function runNext(){
+			if(timers.timers.length>0){
+				for(var i=0;i<timers.timers.length;i++){
+					if(timers.timers[i]() === false){
+						timers.timers.splice(i,1);
+						i--;
+					}
+				}
+				timers.timerId = setTimeout(runNext,16);
+			}
+		})();
+	},
+	stop:function(){
+		clearTimeout(timers.timerId);
+		this.timerId = 0;
+	}
+};
+</script>
+<script type="text/javascript">
+	var box = document.getElementById('box');
+	var x = 0;
+	var y = 0;
+	timers.add(function(){
+		box.style.left = x +"px";
+		if(++x>200){
+			return false;
+		}
+	});
+	timers.add(function(){
+		box.style.top = y +"px";
+		y += 1;
+		if(y>200){
+			return false;
+		}
+	});
+	timers.stop();
+</script>
+</html>

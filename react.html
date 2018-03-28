@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>菜鸟教程 React 实例</title>
+    <script src="https://cdn.bootcss.com/react/15.4.2/react.min.js"></script>
+    <script src="https://cdn.bootcss.com/react/15.4.2/react-dom.min.js"></script>
+    <script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+    <script type="text/babel">
+    var WebSite = React.createClass({
+      propTypes:{
+        name:React.PropTypes.string.isRequired,
+      },
+      render:function(){
+        return (
+          <div>
+            <Name name={this.props.name} />
+            <Link site={this.props.site} />
+          </div>
+        );
+        }
+    });
+
+    var Name = React.createClass({
+      render:function(){
+        return (
+          <h1>{this.props.name}</h1>
+        );
+      }
+    });
+
+    var Link = React.createClass({
+      render:function(){
+        return (
+          <a href={this.props.site}>
+            {this.props.site}
+          </a>
+        );
+      }
+    });
+
+      var Ysh = React.createClass({
+        render:function() {
+            return <h3>hello world{1+2}{this.props.name}</h3>;
+        }
+      });
+    var LikeButton = React.createClass({
+      getDefaultProps:function(){
+        return {
+          ysh:'ysh good'
+        }
+      },
+      getInitialState:function(){
+        return {
+          liked:false,
+          count:0
+        };
+      },
+      handleClick:function(event){
+        this.setState({liked:!this.state.liked,count:this.state.count+1});
+      },
+      render:function(){
+        var text = this.state.liked ? '喜欢':'不喜欢';
+        return (
+          <p onClick={this.handleClick}>
+            你{text}我{this.props.ysh}{this.props.name}---{this.state.count}
+          </p>
+        )
+      }
+    });
+    var Hello = React.createClass({
+      getInitialState:function(){
+        return {
+          opacity:1.0
+        };
+      },
+      componentWillMount:function(){
+        console.log('componentWillMount');
+      },
+      componentDidMount:function(){
+        console.log('componentDidMount');
+         setInterval(function(){
+          var opacity = this.state.opacity;
+          opacity-=0.05;
+
+          if (opacity < 0.1) {
+            opacity = 1.0;
+          }
+
+          this.setState({
+            opacity:opacity
+          });
+
+        }.bind(this), 100);
+      },
+      componentWillReceiveProps:function(){
+        console.log('componentWillReceiveProps');
+      },
+      shouldComponentUpdate:function(newProps, newState) {
+        return true;
+      },
+      componentWillUpdate:function(nextProps, nextState) {
+            console.log('Component WILL UPDATE!');
+      },
+      componentDidUpdate:function(prevProps, prevState) {
+            console.log('Component DID UPDATE!')
+      },
+      componentWillUnmount:function() {
+             console.log('Component WILL UNMOUNT!')
+      },
+      render:function(){
+        return (
+          <div style={{opacity:this.state.opacity}}>
+            hello{this.state.opacity}
+          </div>
+        );
+
+      }
+
+    });
+    var User = React.createClass({
+      getInitialState:function(){
+        return {
+          username:'123',
+          url:'123'
+        };
+      },
+      componentDidMount:function(){
+      this.serverRequest = $.get(this.props.source,function(result){
+      console.log(result);
+        var last = result[3];
+        this.setState({
+          username: last.url,
+          url:last.forks_url
+        })
+      }.bind(this));
+      },
+      componentWillUnmount:function(){
+        this.serverRequest.abort();
+      },
+      render:function(){
+        return (
+          <div>
+          {this.state.username}<a href={this.state.url}>{this.state.url}</a>
+        </div>
+        )
+      }
+    }); 
+	var Form1 = React.createClass({
+	    getInitialState:function(){
+	    	return {
+	    	    value:""
+	    	};
+	    },
+	    handleChange:function(event){
+	    	this.setState({value:event.target.value});
+	    },
+	    render:function(){
+	    	var value = this.state.value;
+	    	return <div>
+	    		<input type="text" value={value} name="" onChange={this.handleChange}/>
+	    		<h3>{value}</h3>
+	    	</div>
+	    }
+	});
+	var Content = React.createClass({
+		render:function(){
+			return <div>
+				<input type="text" value={this.props.myDateProp} onChange={this.props.updateStateProp} name="" />
+				<h5>{this.props.myDateProp}</h5>
+			</div>
+		}
+	});
+	var HelloMessage = React.createClass({
+		getInitialState:function(){
+			return {value:'hello ysh'};
+		},
+		handleChange:function(event){
+			this.setState({value:event.target.value});
+		},
+		render:function(){
+			var value = this.state.value;
+			return <div>
+			<Content myDateProp={value} updateStateProp = {this.handleChange}></Content>
+			</div>
+		}
+	});
+     ReactDOM.render(
+     <div>
+     <HelloMessage />
+     <Form1 />
+      <User source="https://api.github.com/users/octocat/gists" />
+       <WebSite name='ysh' site="www.baidu.com"/>
+       <LikeButton />
+     </div>
+     ,
+     document.getElementById("example")
+     );
+    </script>
+  </body>
+</html>

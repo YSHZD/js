@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+<script>
+function match(){
+	var s;
+	var re = new RegExp("d(b+)(d)","ig");
+	var str = "cdbBdbsbdbdz";
+	var arr = re.exec(str);
+	console.log('$0*'+RegExp.$0+'\n'+'$1*'+RegExp.$1+'\n'+'$2*'+RegExp.$2+'\n');
+	console.log(arr.index);
+	console.log(RegExp.input)//cdbBdbsbdbdz
+	console.log(re.source)
+}
+// match()
+ function CallLevel(){
+   if (CallLevel.caller == null)
+      return("CallLevel was called from the top level.");
+   else
+      return("CallLevel was called by another function.");
+}
+// alert(CallLevel())
+var ss="Is is the cost of of gasoline going up up?.\n";
+var reg = /\b([a-z]+) \1\b/gim;
+var rv = ss.replace(reg,"$1");
+console.log(rv);
+var url = 'http://msdn.microsoft.com:80/scripting/default.htm';
+var re = /(\w+):\/\/([^/:]+)(:\d*)?([^# ]*)/;
+var arr = re.exec(url);
+console.log(RegExp.$1);
+console.log(RegExp.$2);
+console.log(RegExp.$3);
+console.log(RegExp.$4);
+console.log( "The rain in Spain falls mainly in the plain".match(/ain/i)[0]);
+console.log( "The rain in Spain falls mainly in the plain".replace(/ain/,'un'));
+var ss = "The rain in Spain falls mainly in the plain.";
+console.log(ss.search(/rain/i));
+console.log(ss.replace(/(\S+)(\s+)(\S+)/g,"$3$2$1"));
+function f2c(s){
+	var test = /(\d+(\.\d*)?)F\b/g;
+	return (s.replace(test,function($0,$1,$2){
+		console.log('$0 '+$0+'$1 '+$1+'$2 '+$2);
+		return ((($1-32) * 5/9)+' C');
+	}))
+}
+console.log(f2c("Water freezes at 32F and boils at 212F."))
+</script>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>deep clone obj</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*Object.prototype.Clone=function(){
+			//Handle null or undefined or function
+			if(null==this||"object" != typeof this) return this;
+			//// Handle the 3 simple types, Number and String and Boolean
+			if(this instanceof Number || this instanceof String || this instanceof Boolean) return this.valueOf();
+			//// Handle Date
+			if(this instanceof Date){
+				var copy = new Date();
+				copy.setTime(this.getTime());
+				return copy;
+			}
+			// Handle Array or Object
+			if(this instanceof Object || this instanceof Array){
+				var copy = (this instanceof Array)?[]:{};
+				for(var attr in this){
+					if(this.hasOwnProperty(attr)){
+						copy[attr]=this[attr]?this[attr].Clone():this[attr];
+					}
+				}
+				return copy;
+			}
+			throw new Error("Unable to clone obj! Its type isn't supported.");
+		}*/
+		Object.prototype.clone=function(){
+			if(null==this || "object"!= typeof this) return this;//null undefined function
+			if(this instanceof Number || this instanceof String ||this instanceof Boolean){
+				return this.valueOf();
+			}
+			if(this instanceof Date){
+				var copy = new Date();
+				copy.setTime(this.getTime());
+				return copy;
+			}
+			if(this instanceof Object || this instanceof Array){
+				var copy = (this instanceof Array)?[]:{};
+				for(var attr in this){
+					if(this.hasOwnProperty(attr)){
+						copy[attr]=this[attr]?this[attr].clone():this[attr];
+					}
+				}
+				return copy;
+			}
+			throw new Error("Unable to clone obj! Its type isn't supported");
+		}
+		var a=a=[1,2,true,null,"fdsfdsa",
+					[1,"fdsa",{"a":1,"b":["fd",3,undefined,{"b":"3","c":""},new Date()],"c":new Date(),"d":false,"e":null,"f":function(){return 2;}}],
+					function(){}
+				];
+		var b=a.clone();
+		console.log(b)
+	</script>
+</body>
+</html>

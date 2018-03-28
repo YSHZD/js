@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<script type="text/javascript" src="style.js"></script>
+<body>
+    <a href="addEventListener.html">go</a>
+	<div id="a">1</div>
+	<div id="a">2</div>
+	<div id="a">3</div>
+	<div id="a">4</div>	
+</body>
+<script type="text/javascript">
+// 	function set(selector, color) {
+// 		var length = document.querySelectorAll(selector).length;
+// 		for(var i=0;i<length;i++){
+// 			 document.querySelectorAll(selector)[i].style.fontSize = color;
+// 		}
+//  // document.querySelectorAll(selector)[0].style.color = color;
+//   // document.querySelectorAll(selector).style.backgroundColor = color;
+// }
+// set('#a', '30px');
+	var el = new getElement('div');
+	el.color('#fff').fontSize('29px').background('red').width('100px').height('30px');
+</script>
+<script type="text/javascript">
+	var arr = [1,2,3];
+	Array.prototype.push = function(){
+		for(var i=0;i<arguments.length;i++){
+			this[this.length] = arguments[i];
+		}
+		return this;
+	}
+	//alert(arr.push(4,5,6));//1,2,3,4,5,6
+	//alert(arr.constructor);
+	function Aaa(){}
+	Aaa.prototype.name = 10;
+	Aaa.prototype.co = 12;
+	// for(var attr in Aaa.prototype){
+	// 	alert(attr);
+	// }
+	// console.log(['23']+['1s2']+['ad','23']);
+</script>
+</html>

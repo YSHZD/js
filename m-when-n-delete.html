@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript">
+		var arr=[];
+		function hai(sum,k){
+			for(var i=0;i<sum;i++){
+				arr[i]=i;
+			}
+			console.log(arr);
+			var num=1;
+			while(arr.length>1){
+				for(var j=0;j<arr.length;j++){
+					if((num+1)==k){
+						arr.splice(j,1);
+						num=0;
+					}else{
+						num++;
+					}
+				}
+			}
+			console.log(arr[0]+1);
+		}
+		
+		
+		hai(14,5);
+	</script>
+</body>
+</html>

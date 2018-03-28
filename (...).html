@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	扩展语法允许一个表达式在期望多个参数（用于函数调用）或多个元素（用于数组字面量）或多个变量（用于解构赋值）的位置扩展。
+</body>
+<script>
+//console.log(Array.prototype.slice.apply([1,2,3,4,5]))
+var slice = Function.prototype.apply.bind(Array.prototype.slice);
+console.log(slice([1,2,3]))
+// var slice = Array.prototype.slice;
+
+// // ...
+
+// slice.apply(arguments);
+// 用 bind() 可以使这个过程变得简单。在下面这段代码里面，slice 是 Function.prototype 的 apply() 方法的绑定函数，并且将 Array.prototype 的 slice() 方法作为 this 的值。这意味着我们压根儿用不着上面那个 apply() 调用了。
+
+// // same as "slice" in the previous example
+// var unboundSlice = Array.prototype.slice;
+// var slice = Function.prototype.apply.bind(unboundSlice);
+
+// // ...
+
+// slice(arguments);
+
+function greet() {
+  var reply = [this.person, 'Is An Awesome', this.role].join(' ');
+  console.log(reply);
+}
+
+var i = {
+  person: 'Douglas Crockford', role: 'Javascript Developer'
+};
+
+greet.call(i); 
+var animals = [
+  {species: 'Lion', name: 'King'},
+  {species: 'Whale', name: 'Fail'}
+];
+
+for (var i = 0; i < animals.length; i++) {
+  (function (i) { 
+    this.print = function () { 
+      console.log('#' + i  + ' ' + this.species + ': ' + this.name); 
+    } 
+    this.print();
+  }).call(animals[i], i);
+}
+function minOfArray(arr){
+	var min = Infinity;
+	var QUANTUM = 32768;
+	for(var i = 0,len = arr.length;i<len;i+=QUANTUM){
+		var submin = Math.min.apply(null,arr.slice(i,Math.min(i+QUANTUM)));
+		min = Math.min(submin,min);
+	}
+	return min;
+}
+var min = minOfArray([1,2,3,4,5,6,7,8,]);
+console.log(min);
+var a=1,b=2;
+var c=a+b;
+a=c-a;
+b=c-a
+console.log('a ='+a);
+// 函数
+// 数组
+const [...abc] = [1,2,3];
+console.log([...abc,4,5,6,7]);
+console.log([0,0,0,...abc,4,5,6,7]);
+console.log([4,5,6,7,...abc]);
+
+function my(x,y,z){
+	console.log(x+y+z);
+}
+var args = [0,2,5];
+//my.apply(null,args);
+my(...args);
+function my2(a,b,c,d,e,f){
+	console.log(a+b+c+d+e+f);
+}
+var gs = [1,1];
+my2(0,0,...gs,2,...[3]);
+let parts = ['shoulder', 'knees'];
+
+let Tshirts = ['Lee', 'Nike'];
+console.log(['ysh',...parts,'ysh',...Tshirts]);
+/*复制数组*/
+var arr1 = [1,2,3];
+var arr2 = [...arr1];
+var arr3 = [4,5,6];
+// arr2.push(22);
+// arr1.push(11);
+// console.log('arr1  '+arr1);
+// console.log('arr2   '+arr2)
+Array.prototype.push.apply(arr1,arr3) //返回length
+console.log(arr1);
+
+let [a1,a2] = [[0,1,2],[3,4,5]];
+console.log([...a1,...a2]);
+var ysh = function(cb){
+	var str =0;
+	for(var i=0;i<=3;i++){
+		str+=i;
+	}
+	typeof cb == 'function' && cb(str);
+}
+ysh(function(obj){
+console.log(obj);
+});
+ function Person(){
+ 	this.age = 0;
+ 	setInterval(()=>{
+ 		this.age++;
+ 		console.log(this.age);
+ 	}
+ 	,1000);
+ }
+ // var p = new Person();
+
+ var ysh ={
+ 	look(){
+ 		console.log('look');
+ 		return this;
+ 	},
+ 	see(){
+ 		console.log('see');
+ 		return this;
+ 	}
+ }
+ ysh.look().see().look().look().see();
+
+ // var obj2 = {
+ // 	g:function*(){
+ // 		var index = 0;
+ // 		while(true){
+ // 			yield index++;
+ // 		}
+ // 	}
+ // }
+ var obj2 = {
+ 	*g(){
+ 		var index =8;
+ 		while(true){
+ 			yield index++;
+ 		}
+ 	}
+ }
+ var it = obj2.g();
+ console.log(it.next().value);
+  console.log(it.next());
+  console.log(it.next().value);
+
+  function* ab(i){
+  	yield i+1;
+  	yield i+2;
+  	yield i+3;
+  }
+
+  function* ba(i){
+  	yield i;
+  	yield* ab(i);
+  	yield i+10;
+  }
+  var sb = ba(10);
+  	console.log(sb.next().value);
+	console.log(sb.next().value);
+	console.log(sb.next().value);
+	console.log(sb.next().value);
+	console.log(sb.next().value);
+	console.log(sb.next().value);
+	function multiply(multiply,...arr){
+		return arr.map(function(el){
+			return multiply * el;
+		})
+	}
+	console.log(multiply(2,1,2,3,4,5));
+	var oo = {a:1};
+	Object.defineProperty(oo,'b',{get:function(){return this.a+1}});
+	console.log(oo.b);
+	var language = {
+		set current(name){
+			this.log.push(name);
+		},
+		log:[]
+	}
+	language.current = 'ysh';
+	language.current = 'ysh1';
+	language.current = 'ysh2';
+	console.log(language.log);
+	// delete language.current;
+	// console.log(language.current);
+	Object.defineProperty(language,'b',{get:function(){return this.log[this.log.length-1]}});
+	console.log(language.b);
+	console.log(new FileReader())
+</script>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="author" content="@my_programmer">
+<title>webkitAnimationEnd</title>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="format-detection" content="telephone=no"/>
+<style type="text/css">
+	#div{
+		width:200px;
+		height:200px;
+		background:#f60;
+		margin:100px auto;
+		-webkit-transition: all ease 1s;
+	}
+	.change{
+		-webkit-animation: transform 1s 2 ease;
+	}
+	@-webkit-keyframes transform { 
+		0% 	{ -webkit-transform: scale(1)}
+		30% { -webkit-transform: scale(2)}
+		60% { -webkit-transform: scale(0.5)}
+		100% { -webkit-transform: scale(1)}
+	}
+	
+
+</style>
+</head>
+<body>
+<div id="div"></div>
+
+<script type="text/javascript">
+var transitions = {
+		WebkitTransition : 'webkitTransitionEnd',
+      	MozTransition    : 'transitionend',
+      	OTransition      : 'oTransitionEnd otransitionend',
+      	transition       : 'transitionend'
+    }
+var animation = {
+		WebkitAnimation : 'webkitAnimationEnd',
+              animation : 'animationend'
+    }
+ var tt = document.querySelector('#div');
+	tt.addEventListener("click", function(){	
+		 this.className = 'change';
+	}, false);
+ 
+ 	/*tt.addEventListener("webkitAnimationStart", function(){ //动画开始时事件
+		 　　console.log(1);　　//动画开始时，控制台输出1
+	}, false);
+	tt.addEventListener("webkitAnimationIteration", function(){	//动画重复运动时的事件
+		 　　console.log(3);　　//第一遍动作完成时，控制台输出3
+	}, false);*/
+
+if(tt.addEventListener){
+	/*for(t in animation){
+           if( tt.style[t] !== undefined ){
+               tt.addEventListener(animation[t],function(){ //动画结束时事件
+					console.log(animation[t]);
+				this.className = this.className.replace('change', ' '); 
+				
+				}, false);
+           }
+       }*/
+    for(t in transitions){
+           if( tt.style[t] !== undefined ){
+               tt.addEventListener(transitions[t],function(){ //动画结束时事件
+					console.log(transitions[t]);
+				this.className = this.className.replace('change', ' '); 
+				
+				}, false);
+           }
+       }
+   
+  }
+
+</script>
+</body>
+</html>

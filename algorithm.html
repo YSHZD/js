@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	/*alert(f(0,9));
+	function f(start,end){
+		if(start>end) return start;
+		return f(start,end-1);
+	}*/
+	/*倒序*/
+	var string = '1234567';
+	function reverse(s){
+		if(s.length==1) return s;
+		return reverse(s.substring(1))+s.charAt(0);
+	}
+	/*上台阶*/
+	function step(num){
+		if(num==1) return 1;
+		if(num==2) return 2;
+		return step(num-1)+step(num-2);
+	}
+	//alert(step(20));//10946
+	/*m个球中取n个球 A(m,n)*/
+	function C(m,n){
+		if(m<n) return 0;
+		/*if(m==n) return 1;
+		if(n==1) return m;*/
+		if(n==0) return 1;
+		return C(m-1,n)+C(m-1,n-1);
+	}
+	/*组合情况*/
+	var obj = 'ABCDE';
+	function show(a){
+		var arr='';
+		for(var i=0;i<a.length;i++){
+			arr+=a[i];
+		}
+		document.write(arr+"<br>");
+	}
+	function A(s,k){
+		if(k==s.length-1){
+			show(s);
+			return;
+		}
+		for(var i=k;i<s.length;i++){
+			{var t=s[k];s[k]=s[i];s[i]=t;}
+			A(s,k+1);
+			{var t=s[k];s[k]=s[i];s[i]=t;}
+		}
+	}
+	//A(obj.split(''),0);
+	//hash 上台阶
+	var hash = new Array();
+	hash[1]=1;
+	hash[2]=2;
+	function step1(n){
+		if(hash[n]!=null||hash[n]!=undefined){
+			return hash[n];
+		}
+		var x = step1(n-1)+step1(n-2);
+		hash[n] = x;//储存
+		return x;
+	}
+	//alert(step1(200))
+	//n 台阶 偶数步
+
+	function evenStep(n){
+		switch(n){
+			case 1:return 0;break;
+			case 2:return 1;break;
+			case 3:return 2;break;
+			case 4:return 2;break;
+			/*evenStep(n-1)+evenStep(n-2)=>
+			evenStep(n-2)+evenStep(n-3)+evenStep(n-3)+evenStep(n-4);*/
+			default:return evenStep(n-4)+2*evenStep(n-3)+evenStep(n-2);
+		}
+	}
+	//alert(evenStep(39));//51167078
+	var num = 0;
+	function evenStep1(n,s){
+		/*if(n<0) return;
+		if(n==0){
+			if(s%2==0){
+				num++;				
+			}
+			console.log(num);
+		}*/
+		if(n==1){
+			if(s%2!==0){
+				num++;
+			}
+			return 1;
+		}
+		if(n==0){
+			if(s%2==0){
+				num++;
+			}
+			return;
+		}
+		return evenStep1(n-1,s+1)+evenStep1(n-2,s+2);
+	}
+	//evenStep1(3,0);
+</script>
+</html>

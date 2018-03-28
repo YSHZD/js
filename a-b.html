@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+<script>
+// function Person(first, last, age, gender, interests) {
+//   this.name = {
+//     first,
+//     last
+//   };
+//   this.age = age;
+//   this.gender = gender;
+//   this.interests = interests;
+//   this.bio = function() {
+//     alert(this.name.first + ' ' + this.name.last + ' is ' + this.age + ' years old. He likes ' + this.interests[0] + ' and ' + this.interests[1] + '.');
+//   };
+//   this.greeting = function() {
+//     alert('Hi! I\'m ' + this.name.first + '.');
+//   };
+// };var person1 = new Person('Bob', 'Smith', 32, 'male', ['music', 'skiing']);\
+// VM32:15 Uncaught SyntaxError: Invalid or unexpected token
+// function Person(first, last, age, gender, interests) {
+//   this.name = {
+//     first,
+//     last
+//   };
+//   this.age = age;
+//   this.gender = gender;
+//   this.interests = interests;
+//   this.bio = function() {
+//     alert(this.name.first + ' ' + this.name.last + ' is ' + this.age + ' years old. He likes ' + this.interests[0] + ' and ' + this.interests[1] + '.');
+//   };
+//   this.greeting = function() {
+//     alert('Hi! I\'m ' + this.name.first + '.');
+//   };
+// };var person1 = new Person('Bob', 'Smith', 32, 'male', ['music', 'skiing']);
+
+// person1.valueOf()
+// Person {name: {…}, age: 32, gender: "male", interests: Array(2), bio: ƒ, …}age: 32bio: ƒ ()gender: "male"greeting: ƒ ()interests: (2) ["music", "skiing"]name: {first: "Bob", last: "Smith"}__proto__: Object
+// person1.valueOf
+// ƒ valueOf() { [native code] }
+// person1.constructor
+// ƒ Person(first, last, age, gender, interests) {
+//   this.name = {
+//     first,
+//     last
+//   };
+//   this.age = age;
+//   this.gender = gender;
+//   this.interests = interests;
+//   this.bio = function() {
+//     alert(this…
+// person1.prototype
+
+// O
+// VM159:1 Uncaught ReferenceError: O is not defined
+//     at <anonymous>:1:1
+// (anonymous) @ VM159:1
+// Object.prototype
+// {constructor: ƒ, __defineGetter__: ƒ, __defineSetter__: ƒ, hasOwnProperty: ƒ, __lookupGetter__: ƒ, …}constructor: ƒ Object()hasOwnProperty: ƒ hasOwnProperty()isPrototypeOf: ƒ isPrototypeOf()propertyIsEnumerable: ƒ propertyIsEnumerable()arguments: (...)caller: (...)length: 1name: "propertyIsEnumerable"__proto__: ƒ ()[[Scopes]]: Scopes[0]toLocaleString: ƒ toLocaleString()toString: ƒ toString()valueOf: ƒ valueOf()__defineGetter__: ƒ __defineGetter__()__defineSetter__: ƒ __defineSetter__()__lookupGetter__: ƒ __lookupGetter__()__lookupSetter__: ƒ __lookupSetter__()get __proto__: ƒ __proto__()set __proto__: ƒ __proto__()
+// person1.prototype
+
+// var p2 = Object.create(person1);
+
+// p2.__proto__
+// Person {name: {…}, age: 32, gender: "male", interests: Array(2), bio: ƒ, …}
+// p2.con
+
+// p2.constructor
+// ƒ Person(first, last, age, gender, interests) {
+//   this.name = {
+//     first,
+//     last
+//   };
+//   this.age = age;
+//   this.gender = gender;
+//   this.interests = interests;
+//   this.bio = function() {
+//     alert(this…
+// person1.constructor
+// ƒ Person(first, last, age, gender, interests) {
+//   this.name = {
+//     first,
+//     last
+//   };
+//   this.age = age;
+//   this.gender = gender;
+//   this.interests = interests;
+//   this.bio = function() {
+//     alert(this…
+// var p3 = new person1.constructor('Karen', 'Stephenson', 26, 'female', ['playing drums', 'mountain climbing']);
+
+// p3.name
+// {first: "Karen", last: "Stephenson"}
+// p2.constructor.name
+// "Person"
+// Person.prototype.farewell = function() {
+//   alert(this.name.first + ' has left the building. Bye for now!');
+// }
+// ƒ () {
+//   alert(this.name.first + ' has left the building. Bye for now!');
+// }
+// p2.farewell()
+
+// function Teacher(first, last, age, gender, interests, subject) {
+//   Person.call(this, first, last, age, gender, interests);
+
+//   this.subject = subject;
+// }
+
+// Teacher.prototype = Object.create(Person.prototype);
+// Person {}
+// Teacher.prototype.constructor
+// ƒ Person(first, last, age, gender, interests) {
+//   this.name = {
+//     first,
+//     last
+//   };
+//   this.age = age;
+//   this.gender = gender;
+//   this.interests = interests;
+//   this.bio = function() {
+//     alert(this…
+// Teacher.prototype.constructor = Teacher;
+// ƒ Teacher(first, last, age, gender, interests, subject) {
+//   Person.call(this, first, last, age, gender, interests);
+
+//   this.subject = subject;
+// }
+// Teacher.prototype.constructor
+// ƒ Teacher(first, last, age, gender, interests, subject) {
+//   Person.call(this, first, last, age, gender, interests);
+
+//   this.subject = subject;
+// }
+// Teacher.prototype.constructor===Teacher
+// true
+// Teacher.prototype.greeting = function() {
+//   var prefix;
+
+//   if(this.gender === 'male' || this.gender === 'Male' || this.gender === 'm' || this.gender === 'M') {
+//     prefix = 'Mr.';
+//   } else if(this.gender === 'female' || this.gender === 'Female' || this.gender === 'f' || this.gender === 'F') {
+//     prefix = 'Mrs.';
+//   } else {
+//     prefix = 'Mx.';
+//   }
+
+//   alert('Hello. My name is ' + prefix + ' ' + this.name.last + ', and I teach ' + this.subject + '.');
+// };
+// ƒ () {
+//   var prefix;
+
+//   if(this.gender === 'male' || this.gender === 'Male' || this.gender === 'm' || this.gender === 'M') {
+//     prefix = 'Mr.';
+//   } else if(this.gender === 'female' || this.gender === …
+// var teacher1 = new Teacher('Dave', 'Griffiths', 31, 'male', ['football', 'cookery'], 'mathematics');
+
+// teacher1.greeting()
+
+// teacher1.keys();
+// VM904:1 Uncaught TypeError: teacher1.keys is not a function
+//     at <anonymous>:1:10
+// (anonymous) @ VM904:1
+// typeof teacher1;
+// "object"
+// Object.keys(teachers);
+// VM990:1 Uncaught ReferenceError: teachers is not defined
+//     at <anonymous>:1:13
+// (anonymous) @ VM990:1
+// Object.keys(teacher1);
+// (7) ["name", "age", "gender", "interests", "bio", "greeting", "subject"]
+// Object.values(teacher1);
+// (7) [{…}, 31, "male", Array(2), ƒ, ƒ, "mathematics"]
+var superHeroes={
+  "squadName" : "Super hero squad",
+  "homeTown" : "Metro City",
+  "formed" : 2016,
+  "secretBase" : "Super tower",
+  "active" : true,
+  "members" : [
+    {
+      "name" : "Molecule Man",
+      "age" : 29,
+      "secretIdentity" : "Dan Jukes",
+      "powers" : [
+        "Radiation resistance",
+        "Turning tiny",
+        "Radiation blast"
+      ]
+    },
+    {
+      "name" : "Madame Uppercut",
+      "age" : 39,
+      "secretIdentity" : "Jane Wilson",
+      "powers" : [
+        "Million tonne punch",
+        "Damage resistance",
+        "Superhuman reflexes"
+      ]
+    },
+    {
+      "name" : "Eternal Flame",
+      "age" : 1000000,
+      "secretIdentity" : "Unknown",
+      "powers" : [
+        "Immortality",
+        "Heat Immunity",
+        "Inferno",
+        "Teleportation",
+        "Interdimensional travel"
+      ]
+    }
+  ]
+}
+console.log(typeof superHeroes);
+var str = JSON.stringify(superHeroes);
+console.log(typeof JSON.parse(str));
+function showHeroes(jsonObj) {
+  var heroes = jsonObj['members'];
+      
+  for(i = 0; i < heroes.length; i++) {
+    var myArticle = document.createElement('article');
+    var myH2 = document.createElement('h2');
+    var myPara1 = document.createElement('p');
+    var myPara2 = document.createElement('p');
+    var myPara3 = document.createElement('p');
+    var myList = document.createElement('ul');
+
+    myH2.textContent = heroes[i].name;
+    myPara1.textContent = 'Secret identity: ' + heroes[i].secretIdentity;
+    myPara2.textContent = 'Age: ' + heroes[i].age;
+    myPara3.textContent = 'Superpowers:';
+        
+    var superPowers = heroes[i].powers;
+    for(j = 0; j < superPowers.length; j++) {
+      var listItem = document.createElement('li');
+      listItem.textContent = superPowers[j];
+      myList.appendChild(listItem);
+    }
+
+    myArticle.appendChild(myH2);
+    myArticle.appendChild(myPara1);
+    myArticle.appendChild(myPara2);
+    myArticle.appendChild(myPara3);
+    myArticle.appendChild(myList);
+
+    document.body.appendChild(myArticle);
+  }
+}
+showHeroes(superHeroes)
+// superHeroes["members"][1]["powers"][2]
+
+var a=3,b=4;
+
+var a=123,b=456;
+// var temp;
+// temp=a;
+// a=b;
+// b=temp;
+
+// a=a+b;
+// b=a-b;
+// a=a-b;
+
+a=a^b;
+b=a^b;
+a=a^b;
+
+console.log('a='+a);
+console.log('b='+b);
+</script>
+</html>

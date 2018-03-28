@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
+	<title>Document</title>
+	<style type="text/css">
+		*{margin:0;padding:0;}
+		div{width:100%;height:1000px;background:yellow;}
+	</style>
+</head>
+<body>
+	<div>1</div>
+	<script type="text/javascript">
+	var startX,startY;
+		document.addEventListener('touchstart',function(ev){
+			ev = ev ||window.event;
+			startX = ev.touches[0].pageX;
+			console.log(1);
+			startY = ev.touches[0].pageY;
+			},false);
+	document.addEventListener('touchend',function(ev){
+		ev = ev || window.event;
+		var endX,endY;
+		endX = ev.changedTouches[0].pageX;
+		endY = ev.changedTouches[0].pageY;
+		if(Math.abs(endX-startX) >= Math.abs(endY-startY)){
+			if(endX>startX){
+				alert('向右了');
+			}else{alert('向左了');}
+		}
+		if(Math.abs(endX-startX) < Math.abs(endY-startY)){
+			if(endY>startY){
+				alert('向下了');
+			}else{alert('向上了');}
+		}
+		
+	},false);
+</script>	
+</body>
+
+</html>

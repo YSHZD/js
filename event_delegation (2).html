@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>事件代理</title>
+	<style type="text/css">
+		li{color:pink;}
+	</style>
+</head>
+<body>
+	<ul id="u">
+		<li>11</li>
+		<li>22</li>
+		<li>33</li>
+		<li>44</li>
+	</ul>
+	<div id="box">
+        <input type="button" id="add" value="添加" />
+        <input type="button" id="remove" value="删除" />
+        <input type="button" id="move" value="移动" />
+        <input type="button" id="select" value="选择" />
+    </div>
+</body>
+<script type="text/javascript">
+	window.onload = function(){
+		var oul = document.getElementById('u');
+		var oli = oul.getElementsByTagName('li');
+		oul.onclick = function(ev){
+				var ev = ev || window.event;
+				var target = ev.target || ev.srcElement;//标准浏览器用ev.target，IE浏览器用event.srcElement
+				if(target.nodeName.toLowerCase()==="li"){
+				//target.style.background='yellow';
+					alert(target.innerHTML);
+				}
+		};
+		oul.onmouseover = function(ev){
+			var ev = ev || window.event;
+			var target = ev.target || ev.srcElement;
+			if(target.nodeName.toLowerCase()==='li'){
+				for(var i=0;i<oli.length;i++){
+					if(oli[i]==target){
+						console.log(i);
+					}
+				}
+				target.style.color='red';
+				target.style.background = 'yellow';
+				target.style.transition = "all 1s";
+			}
+		};
+		oul.onmouseout = function(ev){
+			var ev = ev ||window.event;
+			var target = ev.target || ev.srcElement;
+			if(target.nodeName.toLowerCase()==='li'){
+				target.style.color = '#0f0';
+				target.style.background = '#fff';
+				target.style.transition = 'all 1s';
+			}
+		}
+		var obtn = document.getElementById('box');
+		obtn.onclick = function(ev){
+			var ev = ev || window.event;
+			var target = ev.target || ev.srcElement;
+			if(target.nodeName.toLowerCase()=='input'){
+				switch(target.id){
+					case 'add':{
+						var oli = document.createElement('li');
+						var text = document.createTextNode('ysh');
+						oli.appendChild(text);
+						oul.appendChild(oli);
+					}break;
+					case 'remove':{
+						var arr = new Array();
+						var len = oul.childNodes.length;
+						for(var i=0;i<len;i++){
+							if((oul.childNodes[i].nodeType==1)&&(oul.childNodes[i].nodeName.toLowerCase()==='li')){
+								arr.push(i);
+							}							
+						}
+						if((arr.length-1)>=0){
+							for(var i=len-1;i>=arr[arr.length-1];i--){
+								oul.removeChild(oul.childNodes[i]);
+							}	
+						}
+						
+					}break;
+					case 'move':alert('move');break;
+					case 'select':alert('select');break;
+				}
+			}
+		};
+	}
+</script>
+</html>

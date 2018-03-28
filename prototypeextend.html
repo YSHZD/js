@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+//原型继承:  无new的对象
+var a = {
+	name:'小米'
+};
+var b = cloneObj(a);
+b.name = '小熊熊';
+alert(a.name);
+alert(b.name);
+
+function cloneObj(obj){
+	var F = function(){};
+	F.prototype = obj;
+	return new F();
+}
+</script>
+</html>

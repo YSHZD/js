@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>merge diff</title>
+</head>
+<body>
+		<script type="text/javascript">
+		function mizDiff(originalInfo){
+			var result = originalInfo.map(info=>{
+				if(info.added){
+					return '+'+info.value;
+				}
+				if(info.removed){
+					return '-'+info.count;
+				}
+				return info.count;
+			});
+			return JSON.stringify(result);
+		}
+		//aaabbbccc =>aaagggccc
+		var diffInfo = [
+    { count: 3, value: 'aaa' },
+    { count: 3, added: undefined, removed: true, value: 'bbb' },
+    { count: 3, added: true, removed: undefined, value: 'ggg' },
+    { count: 3, value: 'ccc' }
+];
+console.log(mizDiff(diffInfo));//[3,"-3","+ggg",3]
+
+			function mergeDiff(oldString,diffInfo){
+				var newString = "";
+				var diffInfo = JSON.parse(diffInfo);//diffinfo   'aaabbbccc', [3, "-3", "+ggg", 3]
+				var p = 0;
+				for(var i = 0; i < diffInfo.length; i++){
+					var info = diffInfo[i];
+					if(typeof(info) == 'number'){//3
+						newString+=oldString.slice(p,p+info);//newstring=aaa p=6  //aaaggg+ccc
+						p+=info;//p=3
+						continue;
+					}
+					if(typeof(info) == 'string'){
+						if(info[0]==='+'){
+							var addedString = info.slice(1,info.lenght);//ggg
+							newString+=addedString;//aaaggg
+						}
+						if(info[0] === '-'){
+							var removeCount = parseInt(info.slice(1,info.length));//-3 ->3
+							p+=removeCount;//p=6
+						}
+					}
+				}
+				return newString;
+			}
+			console.log(mergeDiff('aaabbbccc', '[3, "-3", "+ggg", 3]'));//aaagggccc
+			var kk = [{a:2,c:'a2'},{a:4,c:'a3'},{a:1,c:'a1'},{a:3,c:'a3'},{a:2,c:'a2'}];
+			var cc=kk.sort(function(a,b){
+				return a.a-b.a;
+			});
+			//console.log(cc);
+			for(var key in kk){
+				console.log(kk[key].a);
+			}
+		</script>	
+</body>
+</html>
