@@ -5,3 +5,4 @@ git remote add origin url
 git pull url
 git fetch origin master:tmp
 git diff tmp
+thr
