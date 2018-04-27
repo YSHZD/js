@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body style="text-align: center;">
+<button id="btn0">go</button>
+
+<div id="gogo" style="height: 40px;width: 40px;background-color: pink;position:absolute;left:300px;top: 30px;border-radius:50%"></div>
+
+
+<button id="btn1">顺时针旋转</button>
+<button id="btn2">逆时针旋转</button>
+<button id="btn3">暂停</button>
+<button id="reset">还原</button>
+<div id="result"></div>
+<div id="backup" style="margin-left:-150px;margin-top:-150px;height: 300px;width:300px;border:1px solid black;border-radius:50%;position:absolute;top:50%;left:50%;box-sizing: border-box;">
+
+    <div id="test" style="height: 40px;width: 40px;margin-left:-20px;margin-top:-20px;background-color:pink;position:relative;left:100%;top:50%;border-radius:50%"></div>
+
+</div>
+</body>
+<script>
+document.getElementById('btn0').onclick = function(){
+	elastic({obj:gogo,left:900})
+}
+
+function elastic(json){
+	var stepX = json.step || 30; ;
+	var obj = json.obj;
+	var curX;
+	clearInterval(obj.timer) ;
+	obj.timer = setInterval(function(){
+		curX = parseFloat(getCss(obj,'left'));
+		stepX
+		stepX = (left - curX ) / 25;
+		if(parseInt(stepX) == 0){
+			clearInterval(obj.timer)
+		}
+		obj.style.left = curX + stepX +'px';
+	},20)
+}
+
+document.getElementById('btn3').onclick = function(){
+	clearInterval(test.timer);
+	test.timer = 0;
+}
+document.getElementById('btn2').onclick = function(){
+	clearInterval(test.timer);
+	test.timer = 0;
+      circleMove({obj:test,r:150,x0:150,y0:150,max:2,dir:'-'});
+}
+document.getElementById('btn1').onclick = function(){
+	clearInterval(test.timer);
+	test.timer = 0;
+	circleMove({obj:test,r:150,x0:150,y0:150,max:2});
+}
+document.getElementById('reset').onclick = function(){
+	clearInterval(test.timer);
+	test.timer = 0;
+}
+function getCss(obj,style){
+    if(window.getComputedStyle){
+        return getComputedStyle(obj)[style];
+    }
+    return obj.currentStyle[style];
+} 
+function circleMove(json){
+	var obj = json.obj;
+	var dir = json.dir || '+';//顺时针+ or 逆时针-
+    var max = Number(json.max) || 'all';
+    var r = Number(json.r) || 100;
+    var x0 = json.x0 || parseFloat(getCss(obj,'left'));
+    var y0 = json.y0 || parseFloat(getCss(obj,'top'));
+    var a0 = Number(json.a0) || 0;
+    var a = json.a || a0;
+    var num = json.num || 0;
+    if(obj.timer){return;}
+    var cur = {};
+    obj.timer = setInterval(function(){
+    	obj.a = a;
+    	obj.x0 = x0;
+    	obj.y0 = y0;
+    	obj.x = x;
+    	obj.y = y;
+    	obj.num = num;
+    	if(num == max){
+    		clearInterval( obj.timer)
+    	}
+    	if(dir == '+'){
+    		a++;
+    		if(a == a0 + 360){
+    			a = a0;
+    			num++;
+    		}
+    	}else{
+    		a--;
+    		if(a == a0 -360){
+    			a = a0;
+    			num++;
+    		}
+    	}
+    	cur.left = parseFloat(getCss(obj,'left'));
+    	cur.top = parseFloat(getCss(obj,'top'));
+    	var x = x0 + r * Math.cos(a * Math.PI/180);
+    	var y = y0 + r * Math.sin(a * Math.PI/180);
+    	obj.style.left = x + 'px';
+    	obj.style.top = y + 'px';
+    },20)
+}
+</script>
+</html>
