@@ -1,2 +1,8 @@
 # js
-js 练习
+js 
+
+git init
+git remote add origin url
+git fetch origin master:ysh
+git diff ysh
+git merge ysh
